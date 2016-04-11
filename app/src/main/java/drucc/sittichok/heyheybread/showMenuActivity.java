@@ -33,7 +33,7 @@ import java.util.Date;
 public class showMenuActivity extends AppCompatActivity {
 
     // Explicit
-    private String strID;
+    private String strID;   // id ของ User ที่ login อยู่
 
 
     @Override
@@ -75,10 +75,33 @@ public class showMenuActivity extends AppCompatActivity {
         // Setup Value Array
         ManageTABLE objManageTABLE = new ManageTABLE(this);
 
-        final String[] breadStrings = objManageTABLE.readAllBread(1); // รับค่า ชื่อ ขนมปัง
-        final String[] priceStrings = objManageTABLE.readAllBread(2); // ราคา ขนมปัง
-        String[] stockStrings = objManageTABLE.readAllBread(3); // จำนวน ขนมปัง
-        String[] iconStrings = objManageTABLE.readAllBread(4); // รูปขนมปัง
+//        final String[] breadStrings = objManageTABLE.readAllBread(1); // รับค่า ชื่อ ขนมปัง
+//        final String[] priceStrings = objManageTABLE.readAllBread(2); // ราคา ขนมปัง
+//        String[] stockStrings = objManageTABLE.readAllBread(3); // จำนวน ขนมปัง
+//        String[] iconStrings = objManageTABLE.readAllBread(4); // รูปขนมปัง
+
+        // Setup Value
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE status = '1'", null);
+        cursor.moveToFirst();
+
+        String[] iconStrings = new String[cursor.getCount()];
+        final String[] breadStrings = new String[cursor.getCount()];
+        final String[] priceStrings = new String[cursor.getCount()];
+        String[] stockStrings = new String[cursor.getCount()];
+
+        for (int i=0; i<cursor.getCount();i++) {
+
+            iconStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Image));
+            breadStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Bread));
+            priceStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Price));
+            stockStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Amount));
+
+            cursor.moveToNext();
+
+        } // for
+        cursor.close();
 
         ListView menuListView = (ListView) findViewById(R.id.listView);  // นำ ListView ที่สร้างมาใช้งาน
         MenuAdapter objMenuAdapter = new MenuAdapter(showMenuActivity.this, // ให้ ListView โชว์ค่า ชื่อ ราคา จำนวน รูป

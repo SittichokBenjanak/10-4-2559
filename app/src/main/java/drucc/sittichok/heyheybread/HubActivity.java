@@ -14,7 +14,7 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
     private ImageView orderImageView, readImageView,
     editImageView, mapImageView, complacencyImageView;
 
-    private String idString;
+    private String idString;    // รับค่า Receive id ที่ user login อยู่
 
 
     @Override
