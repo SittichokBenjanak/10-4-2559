@@ -170,7 +170,7 @@ public class showMenuActivity extends AppCompatActivity {
         // Setup Value
         SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME, // ทำการเปิดฐานข้อมูล
                 MODE_PRIVATE, null);
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE status = '1'AND Amount != '0'", null); // จองหน่วยความจำ
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE status = '1'", null); // จองหน่วยความจำ
         cursor.moveToFirst();
 
         String[] iconStrings = new String[cursor.getCount()];
@@ -199,7 +199,7 @@ public class showMenuActivity extends AppCompatActivity {
         menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ChooseItem(breadStrings[i], priceStrings[i],stockStrings[i]); //ถ้าคลิกเลือกจำนวนสินค้าจะเรียกใช้เมดธอท ChooseItem
+                ChooseItem(breadStrings[i], priceStrings[i]); //ถ้าคลิกเลือกจำนวนสินค้าจะเรียกใช้เมดธอท ChooseItem
             }   // event
         });
 
@@ -207,8 +207,7 @@ public class showMenuActivity extends AppCompatActivity {
     }   //  ListViewController
 
     private void ChooseItem(final String breadString,
-                            final String priceString ,
-                            final String amountString) {
+                            final String priceString) {
 
         CharSequence[] mySequences = {"1 ชิ้น", "2 ชิ้น", "3 ชิ้น", "4 ชิ้น", "5 ชิ้น",
                 "6 ชิ้น", "7 ชิ้น", "8 ชิ้น", "9 ชิ้น", "10 ชิ้น",};
@@ -221,7 +220,6 @@ public class showMenuActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 int intItem = i +1;     // จำนวนที่สั่ง
-                int intStock = Integer.parseInt(amountString); // เปลี่ยนจากอักษร 5 เป็น เลข 5  //จำนวนที่มีในสต๊อก
 
                 // update to SQLite พักไว้ที่ SQLite ยังไม่ขึ้นไปที่ mySQL
                 UpdateOrderToSQLit(breadString, priceString, intItem);
