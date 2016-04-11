@@ -27,7 +27,7 @@ public class ManageTABLE {
     public static final String TABLE_BREAD = "breadTABLE";
     public static final String COLUMN_Bread = "Bread";
     public static final String COLUMN_Price = "Price";
-    public static final String COLUMN_Amount = "Amount";
+
     public static final String COLUMN_Image = "Image";
     public static final String COLUMN_Status = "Status";
 
@@ -54,7 +54,7 @@ public class ManageTABLE {
 
             String[] resultStrings = null;
             Cursor objCursor = readSqLiteDatabase.query(TABLE_BREAD,
-                    new String[]{COLUMN_id, COLUMN_Bread, COLUMN_Amount},
+                    new String[]{COLUMN_id, COLUMN_Bread},
                     COLUMN_Bread + "=?",
                     new String[]{String.valueOf(strBread)},
                     null,null,null,null);
@@ -141,7 +141,7 @@ public class ManageTABLE {
                 new String[]{COLUMN_id,
                         COLUMN_Bread,
                         COLUMN_Price,
-                        COLUMN_Amount,
+
                         COLUMN_Image},
                 null,null,null,null,null);
         objCursor.moveToFirst();
@@ -154,9 +154,6 @@ public class ManageTABLE {
                     break;
                 case 2:
                     resultStrings[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_Price));
-                    break;
-                case 3:
-                    resultStrings[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_Amount));
                     break;
                 case 4:
                     resultStrings[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_Image));
@@ -264,14 +261,14 @@ public class ManageTABLE {
 
     public long addNewBread(String strBread,
                             String strPrice,
-                            String strAmount,
+
                             String strImage,
                             String strStatus) {
         ContentValues objContentValues = new ContentValues();
         //ContentValues คือ obj ที่ใช้ในการเชื่อมต่อฐานข้อมูล มันคือตัวกลาง
         objContentValues.put(COLUMN_Bread,strBread);
         objContentValues.put(COLUMN_Price,strPrice);
-        objContentValues.put(COLUMN_Amount,strAmount);
+
         objContentValues.put(COLUMN_Image,strImage);
         objContentValues.put(COLUMN_Status,strStatus);
 

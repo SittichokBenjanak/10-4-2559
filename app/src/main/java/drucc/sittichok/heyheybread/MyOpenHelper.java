@@ -26,7 +26,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "_id integer primary key," +
             "Bread text," +
             "Price text," +
-            "Amount text," +
+
             "Image text," +
             "Status text);";
 

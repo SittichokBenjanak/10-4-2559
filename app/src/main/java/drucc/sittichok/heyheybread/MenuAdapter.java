@@ -17,15 +17,15 @@ public class MenuAdapter extends BaseAdapter{
 
     //Explicit
     private Context objContext;
-    private String[] iconStrings,breadStrings,priceStrings, stockStrings;
+    private String[] iconStrings,breadStrings,priceStrings;
 
     public MenuAdapter(Context objContext,
-                       String[] stockStrings,
+
                        String[] priceStrings,
                        String[] breadStrings,
                        String[] iconStrings) {
         this.objContext = objContext;
-        this.stockStrings = stockStrings;
+
         this.priceStrings = priceStrings;
         this.breadStrings = breadStrings;
         this.iconStrings = iconStrings;

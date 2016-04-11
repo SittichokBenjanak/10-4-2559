@@ -58,7 +58,6 @@ public class showMenuActivity extends AppCompatActivity {
     // Create Inner Class
     public class MyConnectedBread extends AsyncTask<Void, Void, String> {
 
-
         @Override
         protected String doInBackground(Void... voids) {
 
@@ -100,14 +99,13 @@ public class showMenuActivity extends AppCompatActivity {
 
                     String strBread = jsonObject.getString(ManageTABLE.COLUMN_Bread);
                     String strPrice = jsonObject.getString(ManageTABLE.COLUMN_Price);
-                    String strAmount = jsonObject.getString(ManageTABLE.COLUMN_Amount);
+
                     String strImage = jsonObject.getString(ManageTABLE.COLUMN_Image);
                     String strStatus = jsonObject.getString(ManageTABLE.COLUMN_Status);
 
                     ManageTABLE manageTABLE = new ManageTABLE(showMenuActivity.this);
                     manageTABLE.addNewBread(strBread,
                                             strPrice,
-                                            strAmount,
                                             strImage,
                                             strStatus);
 
@@ -176,14 +174,14 @@ public class showMenuActivity extends AppCompatActivity {
         String[] iconStrings = new String[cursor.getCount()];
         final String[] breadStrings = new String[cursor.getCount()];
         final String[] priceStrings = new String[cursor.getCount()];
-        final String[] stockStrings = new String[cursor.getCount()];
+
 
         for (int i=0; i<cursor.getCount();i++) {
 
             iconStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Image));
             breadStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Bread));
             priceStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Price));
-            stockStrings[i] = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_Amount));
+
 
             cursor.moveToNext();
 
@@ -192,7 +190,7 @@ public class showMenuActivity extends AppCompatActivity {
 
         ListView menuListView = (ListView) findViewById(R.id.listView);  // นำ ListView ที่สร้างมาใช้งาน
         MenuAdapter objMenuAdapter = new MenuAdapter(showMenuActivity.this, // ให้ ListView โชว์ค่า ชื่อ ราคา จำนวน รูป
-                stockStrings, priceStrings, breadStrings, iconStrings);
+                 priceStrings, breadStrings, iconStrings);
         menuListView.setAdapter(objMenuAdapter);
 
         // Active When Click ListView   // ถ้าคลิก เลือก สินค้า จะโชว์ หน้าต่างจำนวน สินค้าให้เลือก
