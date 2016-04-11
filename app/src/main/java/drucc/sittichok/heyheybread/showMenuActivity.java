@@ -176,7 +176,7 @@ public class showMenuActivity extends AppCompatActivity {
         String[] iconStrings = new String[cursor.getCount()];
         final String[] breadStrings = new String[cursor.getCount()];
         final String[] priceStrings = new String[cursor.getCount()];
-        String[] stockStrings = new String[cursor.getCount()];
+        final String[] stockStrings = new String[cursor.getCount()];
 
         for (int i=0; i<cursor.getCount();i++) {
 
@@ -199,14 +199,16 @@ public class showMenuActivity extends AppCompatActivity {
         menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ChooseItem(breadStrings[i], priceStrings[i]); //ถ้าคลิกเลือกจำนวนสินค้าจะเรียกใช้เมดธอท ChooseItem
+                ChooseItem(breadStrings[i], priceStrings[i],stockStrings[i]); //ถ้าคลิกเลือกจำนวนสินค้าจะเรียกใช้เมดธอท ChooseItem
             }   // event
         });
 
 
     }   //  ListViewController
 
-    private void ChooseItem(final String breadString, final String priceString) {
+    private void ChooseItem(final String breadString,
+                            final String priceString ,
+                            final String amountString) {
 
         CharSequence[] mySequences = {"1 ชิ้น", "2 ชิ้น", "3 ชิ้น", "4 ชิ้น", "5 ชิ้น",
                 "6 ชิ้น", "7 ชิ้น", "8 ชิ้น", "9 ชิ้น", "10 ชิ้น",};
@@ -217,10 +219,22 @@ public class showMenuActivity extends AppCompatActivity {
         objBuilder.setSingleChoiceItems(mySequences, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                int intItem = i +1;
-                UpdateOrderToSQLit(breadString, priceString, intItem);
+                int intItem = i +1;     // จำนวนที่สั่ง
+                int intStock = Integer.parseInt(amountString); // เปลี่ยนจากอักษร 5 เป็น เลข 5
 
-                dialogInterface.dismiss(); // ปิดหน้าต่าง ที่โชว์
+                if (intItem <= intStock) {
+
+                    UpdateOrderToSQLit(breadString, priceString, intItem);
+                    dialogInterface.dismiss(); // ปิดหน้าต่าง ที่โชว์
+
+                } else {
+                    Toast.makeText(showMenuActivity.this,"ไม่ควรสั่งให้มากกว่า " + amountString,
+                            Toast.LENGTH_SHORT).show();
+                    dialogInterface.dismiss();
+                }
+
+
+
             }   // event
         });
 
