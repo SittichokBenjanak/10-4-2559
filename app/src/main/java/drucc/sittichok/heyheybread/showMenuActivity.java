@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,11 +46,98 @@ public class showMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_menu);
 
+        //Synchronize breadTABLE
+        synBreadTABLE();
+
         //ListView Controller
-        ListViewController();
+        //ListViewController();
 
 
     }   //  onCreate
+
+    // Create Inner Class
+    public class MyConnectedBread extends AsyncTask<Void, Void, String> {
+
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            try {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                Request request = builder.url("http://swiftcodingthai.com/mos/php_get_bread_mos.php").build();
+                Response response = okHttpClient.newCall(request).execute();
+                return response.body().string();
+
+
+            } catch (Exception e) {
+                Log.d("11April", "Error doInBack ==> " + e.toString());
+                return null;
+            }
+
+
+        } // doInBack
+
+        @Override
+        protected void onPostExecute(String strJSON) {
+            super.onPostExecute(strJSON);
+
+            try {
+                JSONArray jsonArray = new JSONArray(strJSON);
+                for (int i=0; i<jsonArray.length(); i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    String strBread = jsonObject.getString(ManageTABLE.COLUMN_Bread);
+                    String strPrice = jsonObject.getString(ManageTABLE.COLUMN_Price);
+                    String strAmount = jsonObject.getString(ManageTABLE.COLUMN_Amount);
+                    String strImage = jsonObject.getString(ManageTABLE.COLUMN_Image);
+                    String strStatus = jsonObject.getString(ManageTABLE.COLUMN_Status);
+
+                    ManageTABLE manageTABLE = new ManageTABLE(showMenuActivity.this);
+                    manageTABLE.addNewBread(strBread,
+                                            strPrice,
+                                            strAmount,
+                                            strImage,
+                                            strStatus);
+
+                } //for
+
+                ListViewController();
+
+            } catch (Exception e) {
+                Log.d("11April", "Error onPost ==> " + e.toString());
+            }
+
+        }   // onPost
+
+    }   // MyConnectedBread
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        synBreadTABLE();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        synBreadTABLE();
+    }  // ใช้งานไม่ได้
+
+    private void synBreadTABLE() {
+
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE, null);
+
+        sqLiteDatabase.delete(ManageTABLE.TABLE_BREAD, null, null);
+
+
+        MyConnectedBread myConnectedBread = new MyConnectedBread();
+        myConnectedBread.execute();
+
+    } //  synBreadTABLE
 
     public void clickConfirmOrder(View view) {
 
@@ -75,15 +167,10 @@ public class showMenuActivity extends AppCompatActivity {
         // Setup Value Array
         ManageTABLE objManageTABLE = new ManageTABLE(this);
 
-//        final String[] breadStrings = objManageTABLE.readAllBread(1); // รับค่า ชื่อ ขนมปัง
-//        final String[] priceStrings = objManageTABLE.readAllBread(2); // ราคา ขนมปัง
-//        String[] stockStrings = objManageTABLE.readAllBread(3); // จำนวน ขนมปัง
-//        String[] iconStrings = objManageTABLE.readAllBread(4); // รูปขนมปัง
-
         // Setup Value
-        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME, // ทำการเปิดฐานข้อมูล
                 MODE_PRIVATE, null);
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE status = '1'", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE status = '1'", null); // จองหน่วยความจำ
         cursor.moveToFirst();
 
         String[] iconStrings = new String[cursor.getCount()];
