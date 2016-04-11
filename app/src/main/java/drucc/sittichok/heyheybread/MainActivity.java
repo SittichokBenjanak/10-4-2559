@@ -207,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
                             String strPrice = object.getString(ManageTABLE.COLUMN_Price);
                             String strAmount = object.getString(ManageTABLE.COLUMN_Amount);
                             String strImage = object.getString(ManageTABLE.COLUMN_Image);
+                            String strStatus = object.getString(ManageTABLE.COLUMN_Status);
 
-                            objManageTABLE.addNewBread(strBread, strPrice, strAmount, strImage);
+                            objManageTABLE.addNewBread(strBread, strPrice,
+                                    strAmount, strImage,strStatus);
 
                             break;
                         case 3: // orderTABLE
@@ -264,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
     private void testAddValue() {
         objManageTABLE.addNewUser("testUser", "testPass", "testName",
                 "testSurname", "testAddress", "testPhone", "testCom");
-        objManageTABLE.addNewBread("testBread", "testPrice", "testAmount", "testImage");
+        objManageTABLE.addNewBread("testBread", "testPrice", "testAmount", "testImage","teststatus");
         objManageTABLE.addNewOrder("testName","testDate", "testSurname", "testAddress",
                 "testPhone", "testBread", "testPrice", "testItem");
     }

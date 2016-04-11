@@ -27,7 +27,8 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "Bread text," +
             "Price text," +
             "Amount text," +
-            "Image text);";
+            "Image text," +
+            "Status text);";
 
     private static final String CREATE_TABLE_ORDER = "create table orderTABLE (" +
             "_id integer primary key," +

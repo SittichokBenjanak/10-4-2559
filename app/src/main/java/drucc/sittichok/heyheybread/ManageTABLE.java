@@ -29,6 +29,8 @@ public class ManageTABLE {
     public static final String COLUMN_Price = "Price";
     public static final String COLUMN_Amount = "Amount";
     public static final String COLUMN_Image = "Image";
+    public static final String COLUMN_Status = "Status";
+
 
     public static final String TABLE_ORDER = "orderTABLE";
     public static final String COLUMN_Date = "Date";
@@ -46,7 +48,7 @@ public class ManageTABLE {
 
 
     } //Constructor
-
+    // หาชื่อขนมปังจาก breadTABLE
     public String[] searchBreadStock(String strBread) {
         try {
 
@@ -79,7 +81,7 @@ public class ManageTABLE {
     }   // searchBreadStock
 
 
-
+    // หาชื่อขนมปังจาก orderTABLE
     public String[] SearchBread(String strBread) {
 
         try {
@@ -111,6 +113,7 @@ public class ManageTABLE {
         //return new String[0];
     }
 
+    //หาข้อมูล ที่ User login อยู่
     public String[] readAtPosition(int intID) {
 
         String[] resultStrings = null;
@@ -130,11 +133,16 @@ public class ManageTABLE {
         return resultStrings;
     }   //  readAtPosition
 
+
     public String[] readAllBread(int intColumn) {
 
         String[] resultStrings = null;
         Cursor objCursor = readSqLiteDatabase.query(TABLE_BREAD,
-                new String[]{COLUMN_id, COLUMN_Bread, COLUMN_Price, COLUMN_Amount, COLUMN_Image},
+                new String[]{COLUMN_id,
+                        COLUMN_Bread,
+                        COLUMN_Price,
+                        COLUMN_Amount,
+                        COLUMN_Image},
                 null,null,null,null,null);
         objCursor.moveToFirst();
         int intRecord = objCursor.getCount();
@@ -163,6 +171,7 @@ public class ManageTABLE {
 
         return resultStrings;
     }   // readAllBread
+
 
     public String[] searchUser(String strUser) {
 
@@ -199,6 +208,7 @@ public class ManageTABLE {
 
         //return new String[0];
     }   //searchUser
+
 
     public long addNewOrderFinish(String stridReceive,
                                   String strName,
@@ -255,13 +265,15 @@ public class ManageTABLE {
     public long addNewBread(String strBread,
                             String strPrice,
                             String strAmount,
-                            String strImage) {
+                            String strImage,
+                            String strStatus) {
         ContentValues objContentValues = new ContentValues();
         //ContentValues คือ obj ที่ใช้ในการเชื่อมต่อฐานข้อมูล มันคือตัวกลาง
         objContentValues.put(COLUMN_Bread,strBread);
         objContentValues.put(COLUMN_Price,strPrice);
         objContentValues.put(COLUMN_Amount,strAmount);
         objContentValues.put(COLUMN_Image,strImage);
+        objContentValues.put(COLUMN_Status,strStatus);
 
         return writeSqLiteDatabase.insert(TABLE_BREAD,null,objContentValues);
     }   // addNewBread
