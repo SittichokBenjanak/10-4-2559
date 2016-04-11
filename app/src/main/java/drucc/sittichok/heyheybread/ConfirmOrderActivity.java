@@ -36,12 +36,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private int totalAnInt = 0;
     private String strCurrentIDReceive;
 
+    private String strIDuser;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
+
+        strIDuser = getIntent().getStringExtra("idUser");
 
         // Bind Widget  กำหนตตำแหน่งในรายการสั่งซื้อ
         bindWidget();
@@ -113,9 +117,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     .Builder().permitAll().build();
             StrictMode.setThreadPolicy(myPolicy);   // อนุญาตืให้ myPolicy เชื่อมต่อ โปรโตคอล ได้
 
-            //Update breadTABLE
-            updateBreadStock(strBread, strItem);
-
+            // Update tborder on Server
+            updateTotborder(strDate,
+                    strIDuser,
+                    Integer.toString(totalAnInt),
+                    "รอการชำระ");
 
 
 
@@ -186,6 +192,51 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
 
     }   // clickFinish
+
+    private void updateTotborder(String strDate,
+                                 String strIDuser,
+                                 String strSumtotal,
+                                 String strStatus) {
+
+        StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy
+                .Builder().permitAll().build();
+        StrictMode.setThreadPolicy(threadPolicy);
+
+        try {
+
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("isAdd","true"));
+            nameValuePairs.add(new BasicNameValuePair("OrderDate", strDate));
+            nameValuePairs.add(new BasicNameValuePair("CustomerID",strIDuser));
+            nameValuePairs.add(new BasicNameValuePair("GrandTotal",strSumtotal));
+            nameValuePairs.add(new BasicNameValuePair("Status",strStatus));
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/php_add_tborder.php");
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+            httpClient.execute(httpPost);
+
+            Log.i("11April", "Update Finish");
+
+        } catch (Exception e) {
+            Log.i("11April", "ไม่สามารถอัพไปที่ tborder ได้ จาก " + e.toString());
+        }
+
+    }   // updateTotborder
+
+    private String findIDuser(String strUser) {
+
+        String strIDuser = null;
+
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE,null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM userTABLE WHERE Name = " + "'" + strUser + "'", null);
+        cursor.moveToFirst();
+        strIDuser = cursor.getString(0);
+        cursor.close();
+
+        return strIDuser;
+    }
 
     private void updateBreadStock(String strBread, String strItem) {
 

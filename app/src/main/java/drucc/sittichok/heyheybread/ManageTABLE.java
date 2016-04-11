@@ -275,7 +275,8 @@ public class ManageTABLE {
         return writeSqLiteDatabase.insert(TABLE_BREAD,null,objContentValues);
     }   // addNewBread
 
-    public long addNewUser(String strUser,
+    public long addNewUser(String strID,
+                           String strUser,
                            String strPassword,
                            String strName,
                            String strSurname,
@@ -284,6 +285,8 @@ public class ManageTABLE {
                            String strComplacency) {
         ContentValues objContentValues = new ContentValues();
         //ContentValues คือ obj ที่ใช้ในการเชื่อมต่อฐานข้อมูล มันคือตัวกลาง
+
+        objContentValues.put(COLUMN_id,strID);
         objContentValues.put(COLUMN_User,strUser);
         objContentValues.put(COLUMN_Password,strPassword);
         objContentValues.put(COLUMN_Name,strName);
