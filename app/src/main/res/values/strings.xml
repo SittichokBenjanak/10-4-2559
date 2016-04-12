@@ -6,7 +6,7 @@
     <string name="a4">กรุณากรอกนามสกุล</string>
     <string name="a5">กรุณากรอกที่อยู่</string>
     <string name="a6">กรุณากรอกเบอร์โทร"</string>
-    <string name="tell">Phone. 084-434-5155"</string>
+    <string name="tell">โทร. 084-434-5155"</string>
     <string name="receive">OrderList</string>
     <string name="receive1">GrandTotal</string>
     <string name="b1">No</string>
@@ -14,4 +14,15 @@
     <string name="b3">Amount</string>
     <string name="b4">Price</string>
     <string name="b5">Total</string>
+    <string name="c3">เข้าสู่ระบบ</string>
+    <string name="c2">สมัครสมาชิก</string>
+    <string name="c4">ชื่อผู้ใช้ :</string>
+    <string name="c5">รหัสผ่าน :</string>
+    <string name="c6">ชื่อ :</string>
+    <string name="c7">นามสกุล :</string>
+    <string name="c8">ที่อยู่ :</string>
+    <string name="c9">เบอร์โทรศัพท์ :</string>
+    <string name="c10">ตรวจสอบการสมัคร </string>
+
+
 </resources>

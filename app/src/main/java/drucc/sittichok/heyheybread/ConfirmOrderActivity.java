@@ -47,7 +47,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         strIDuser = getIntent().getStringExtra("idUser");
 
-        // Bind Widget  กำหนตตำแหน่งในรายการสั่งซื้อ
+        // Bind Widget  กำหนตตำแหน่งในรายละเอียดการสั่งซื้อ
         bindWidget();
 
 
@@ -68,8 +68,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE, null);
         Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER_FINISH, null);
-        objCursor.moveToFirst();
-        objCursor.moveToLast();
+        objCursor.moveToFirst(); // ไปบนสุด
+        objCursor.moveToLast(); // แล้วลงล่างสุด
 
         String strIDreceive = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_idReceive));
         Log.d("Receive", "Receive Last = " + strIDreceive);
@@ -82,10 +82,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         strCurrentIDReceive = idReceiveStrings[0] + "#" + (Integer.toString(inttext));
         idReceiveTextView.setText(strCurrentIDReceive);
 
-
         objCursor.close();
-
-
 
     }   // findIDreceive
 
@@ -94,8 +91,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         //Read All orderTABLE
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME, // เปิดฐานข้อมูล
                 MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER, null);  // เลือกOrder ทั้งหมด
-        objCursor.moveToFirst();  // ให้เลือกตำแหน่ง ของข้อมูล Order อยู่บนสุด
+        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER, null);  // เลือกOrder ที่ลูกค้าสั่งทั้งหมด
+        objCursor.moveToFirst();  // moveToFirst ให้เลือกตำแหน่ง ของข้อมูล Order อยู่บนสุด
 
         //**********************************************************************************************************************
         // Update Stock
@@ -119,13 +116,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
             // Update tborder on Server
             updateTotborder(strDate,
-                    strIDuser,
-                    Integer.toString(totalAnInt),
-                    "รอการชำระ");
+                            strIDuser,
+                            Integer.toString(totalAnInt),
+                            "รอการชำระ");
 
 
 
-            // Update orderTABLE_mos
+//            // Update orderTABLE_mos
             try {
 
                 ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
@@ -215,6 +212,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/php_add_tborder.php");
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
             httpClient.execute(httpPost);
+
+
 
             Log.i("11April", "Update Finish");
 
@@ -313,11 +312,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     } // clickMore
 
     private void showView() {
-        dateTextView.setText("Date : " + dateString);
-        nameTextView.setText("Name : " + nameString + " " + surnameString);
-        addressTextView.setText("Address : " + addressString);
-        phoneTextView.setText("Phone : " + phoneString );
-        totalTextView.setText(Integer.toString(totalAnInt) + "      Baht");
+        dateTextView.setText("Date : " + dateString); // นำค่า Date ใส่ไปใน dateTextView
+        nameTextView.setText("Name : " + nameString + " " + surnameString); // นำค่า ชื่อ กัย นามสกุล ใส่ไปใน nameTextView
+        addressTextView.setText("Address : " + addressString); // นำค่า ที่อยู่  ใส่ไปใน addressTextView
+        phoneTextView.setText("Phone : " + phoneString );    // นำค่า เบอร์โทร ใส่ไปใน phoneTextView
+        totalTextView.setText(Integer.toString(totalAnInt) + "      Baht"); // นำค่า ราคารวมทั้งหมด ใส่ไปใน totalTextView
     }   // showView
 
     private void readAllData() {

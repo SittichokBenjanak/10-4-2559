@@ -42,16 +42,16 @@
             android:layout_width="@dimen/edittext"
             android:layout_height="wrap_content"
             android:id="@+id/editText"
-            android:hint="User :"
             android:inputType="text"
             android:textColor="#050505"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/c4" />
 
         <EditText
             android:layout_width="@dimen/edittext"
             android:layout_height="wrap_content"
             android:id="@+id/editText2"
-            android:hint="Password :"
+            android:hint="@string/c5"
             android:inputType="textPassword"
             android:textColor="#0b0a0a"
             android:layout_gravity="center_horizontal" />
@@ -68,16 +68,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="clickLogin"
-            android:text="Login"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="@string/c3" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="New Register"
+            android:text="@string/c2"
             android:onClick="clickNewRegister"
             android:id="@+id/button2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="20dp" />
     </LinearLayout>
 </RelativeLayout>
