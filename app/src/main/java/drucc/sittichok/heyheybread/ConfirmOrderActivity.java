@@ -219,13 +219,36 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
             objCursor.moveToNext(); // ทำต่อ
 
+            //**********************************************************************************************************************
+            // Update tborderDetail
+            //**********************************************************************************************************************
+
             // Update to tborderdetail on Server
             Log.d("12April", "clickFinish OrderNo ล่าสุดที่อ่าได้ ==> " + strOrderNo);
+            int intOrderNo = Integer.parseInt(strOrderNo)+ 1;
+            String strNextOrderNo = Integer.toString(intOrderNo);
 
             orderDetailAnInt += 1;
             Log.d("12April", "OrderDetailID(" + (i + 1) +")" + orderDetailAnInt);
+            String strOrderDetail = Integer.toString(orderDetailAnInt);
 
+            String strProductID = findProductID(strBread);
 
+            Log.d("12April", strBread + " มี id = " + strProductID);
+
+            int intAmount = Integer.parseInt(strItem);
+            int intPrice = Integer.parseInt(strPrice);
+            int PriceTotal = intAmount * intPrice ;
+            String strPriceTotal = Integer.toString(PriceTotal);
+
+            Log.d("12April", "Amount * Price = " + intAmount + "x" + intPrice + " = " + PriceTotal);
+
+            updateTotborderdetail(strNextOrderNo,
+                                  strOrderDetail,
+                                  strProductID,
+                                  strItem,
+                                  strPrice,
+                                  strPriceTotal);
 
         }   // for
         objCursor.close(); // คืนหน่วยความจำ
@@ -240,10 +263,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 strIDuser,
                 Integer.toString(totalAnInt),
                 "รอการชำระ");
-
-
-
-
 
         // Intent HubActivity
         Intent objIntent = new Intent(ConfirmOrderActivity.this, HubActivity.class);
@@ -260,6 +279,33 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
 
     }   // clickFinish
+
+    private void updateTotborderdetail(String strOrderNo,
+                                       String strorderDetail_ID,
+                                       String strProductID,
+                                       String strAmount,
+                                       String strPrice,
+                                       String strpriceTotal) {
+    }
+
+    private String findProductID(String strBread) {
+
+        String strProductID = null;
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                    MODE_PRIVATE,null);
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM breadTABLE WHERE Bread = " + "'" + strBread + "'", null);
+            cursor.moveToFirst();
+            strProductID = cursor.getString(0);
+            return strProductID;
+
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 
     private void updateTotborder(String strDate,
                                  String strIDuser,
