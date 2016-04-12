@@ -45,6 +45,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private String strIDuser;
     private String strDate;
     private String strOrderNo;
+    private int orderDetailAnInt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,14 +205,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 Log.d("hey", "Error Cannot Update to mySQL ==> " + e.toString());
             }   // end of TryCase 1
 
-
             try {
 
                 //Find Id Bread
                 ManageTABLE objManageTABLE = new ManageTABLE(this);
                 String[] resultStrings = objManageTABLE.SearchBread(strBread);
-                Log.d("16Feb", "id bread " + strBread + " " + resultStrings[0]);
-
+                Log.d("11April", "id bread ที่สั่งได้ " + strBread + " " + resultStrings[0]);
 
             } catch (Exception e) {
                 Log.d("16Feb", "Cannot Delete Stock");
@@ -221,6 +220,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             objCursor.moveToNext(); // ทำต่อ
 
             // Update to tborderdetail on Server
+            Log.d("12April", "clickFinish OrderNo ล่าสุดที่อ่าได้ ==> " + strOrderNo);
+
+            orderDetailAnInt += 1;
+            Log.d("12April", "OrderDetailID(" + (i + 1) +")" + orderDetailAnInt);
+
 
 
         }   // for
