@@ -40,28 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     }   // onCreate
 
-    public void clickCheck(View view) {
-
-        userString = UserEditText.getText().toString().trim();
-        if (userString.equals("")) {  // ถ้า userString = "" ว่าง  ให้ โชว์ ว่า "User ว่าง","กรุณากรอกที่ช่อง User ด้วย"
-            MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            objMyAlertDialog.errorDialog(RegisterActivity.this,"User space","กรุณากรอกข้อมูล User ด้วย");
-        } else {
-                //ถ้าไม่ว่าง ให้โชว์
-            MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            if (checkUser()) {
-                objMyAlertDialog.errorDialog(RegisterActivity.this, "Do not use this user","กรุณาเปลี่ยน User ใหม่ มีใครอื่นใช้แล้ว");
-
-            } else {
-
-                objMyAlertDialog.errorDialog(RegisterActivity.this,"You can use this user","สามารถใช้ User นี้ได้ ");
-
-            }
-
-        }
-
-    }   // clickCheck
-
     private boolean checkUser() {
 
         try {
