@@ -23,6 +23,16 @@
     <string name="c8">ที่อยู่ :</string>
     <string name="c9">เบอร์โทรศัพท์ :</string>
     <string name="c10">ตรวจสอบการสมัคร </string>
+    <string name="d1">ราคา </string>
+    <string name="d2">บาท </string>
+    <string name="d3">สั่งซื้อสินค้า </string>
+    <string name="d4">รายละเอียดการสั่งซื้อสินค้า </string>
+    <string name="d5">ราคารวมทั้งหมด </string>
 
+    <string name="d6">ลำดับ </string>
+    <string name="d7">ราคารวมทั้งหมด </string>
+    <string name="d8">ราคารวมทั้งหมด </string>
+    <string name="d9">ราคารวมทั้งหมด </string>
+    <string name="e1">ราคารวมทั้งหมด </string>
 
 </resources>
