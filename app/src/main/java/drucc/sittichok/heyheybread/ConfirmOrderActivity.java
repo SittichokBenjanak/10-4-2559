@@ -37,7 +37,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private String strCurrentIDReceive;
 
     private String strIDuser;
-
+    private String strDate;
 
 
     @Override
@@ -100,7 +100,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         for (int i =0; i<objCursor.getCount();i++) {    // นำOrder มานับแถว ถ้ามีข้อมูล ให้ทำ
 
-            String strDate = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Date));  // รับค่า เวลา
+            strDate = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Date));  // รับค่า เวลา
             String strName = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Name)); // รับค่า ชื่อ
             String strSurname = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Surname)); // รับค่านามสกุล
             String strAddress = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Address)); // รับค่าที่อยู๋
@@ -114,11 +114,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     .Builder().permitAll().build();
             StrictMode.setThreadPolicy(myPolicy);   // อนุญาตืให้ myPolicy เชื่อมต่อ โปรโตคอล ได้
 
-            // Update tborder on Server
-            updateTotborder(strDate,
-                            strIDuser,
-                            Integer.toString(totalAnInt),
-                            "รอการชำระ");
 
 
 
@@ -173,6 +168,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         }   // for
         objCursor.close(); // คืนหน่วยความจำ
+
+        // Update tborder on Server
+        updateTotborder(strDate,
+                strIDuser,
+                Integer.toString(totalAnInt),
+                "รอการชำระ");
+
 
         // Intent HubActivity
         Intent objIntent = new Intent(ConfirmOrderActivity.this, HubActivity.class);
