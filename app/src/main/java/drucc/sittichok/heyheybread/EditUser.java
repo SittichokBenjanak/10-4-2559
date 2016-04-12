@@ -8,6 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class EditUser extends AppCompatActivity {
 
@@ -16,8 +27,9 @@ public class EditUser extends AppCompatActivity {
             nameEditText,surnameEditText,addressEditText,
             phoneEditText;
     private TextView userTextView;
-
+    private String strID;
     private String userString,passwordString,nameString,surnameString,addressString, phoneString;
+    private static final String urlSTRING = "http://swiftcodingthai.com/mos/php_edit_user_mos.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +47,7 @@ public class EditUser extends AppCompatActivity {
 
     private void showView() {
 
-        String strID = getIntent().getStringExtra("ID");
+        strID = getIntent().getStringExtra("ID");
         SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE,null);
         Cursor cursor = sqLiteDatabase
@@ -74,12 +86,58 @@ public class EditUser extends AppCompatActivity {
             myAlertDialog.errorDialog(this, "มีช่องว่าง","กรุณากรอกให้ครบทุกช่อง");
 
         }  else {
-            // OK
+            // OK  On space
+            updateValueToServer();
         }
 
 
 
     } // clickSaveEdit
+
+    private void updateValueToServer() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("id", strID)
+                .add("Password", passwordString)
+                .add("Name", nameString)
+                .add("Surname", surnameString)
+                .add("Address", addressString)
+                .add("Phone", phoneString)
+                .build();
+        Request.Builder builder = new Request.Builder();
+        final Request request = builder.url(urlSTRING).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+                try {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
+                        finish();
+
+                    } else {
+                        Toast.makeText(EditUser.this,"แก้ไขข้อมูลล้มเหลว",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        finish();
+        Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
+
+    }   // updateValueToServer
 
 
     private boolean checkSpace() {
