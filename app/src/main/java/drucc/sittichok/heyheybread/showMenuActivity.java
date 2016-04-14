@@ -69,56 +69,38 @@ public class showMenuActivity extends AppCompatActivity {
                 Response response = okHttpClient.newCall(request).execute();
                 return response.body().string();
 
-
             } catch (Exception e) {
                 Log.d("11April", "Error doInBack ==> " + e.toString());
                 return null;
             }
-
 
         } // doInBack
 
         @Override
         protected void onPostExecute(String strJSON) {
             super.onPostExecute(strJSON);
-
             Log.d("11April", "strJSON ==> " + strJSON);
-
 
             try {
                 // delete all breadTABLE
                 SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                         MODE_PRIVATE, null);
                 sqLiteDatabase.delete(ManageTABLE.TABLE_BREAD, null, null);
-
-
                 JSONArray jsonArray = new JSONArray(strJSON);
                 for (int i=0; i<jsonArray.length(); i++) {
-
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                     String strBread = jsonObject.getString(ManageTABLE.COLUMN_Bread);
                     String strPrice = jsonObject.getString(ManageTABLE.COLUMN_Price);
-
                     String strImage = jsonObject.getString(ManageTABLE.COLUMN_Image);
                     String strStatus = jsonObject.getString(ManageTABLE.COLUMN_Status);
-
                     ManageTABLE manageTABLE = new ManageTABLE(showMenuActivity.this);
-                    manageTABLE.addNewBread(strBread,
-                                            strPrice,
-                                            strImage,
-                                            strStatus);
-
+                    manageTABLE.addNewBread(strBread, strPrice, strImage, strStatus);
                 } //for
-
                 ListViewController();
-
             } catch (Exception e) {
                 Log.d("11April", "Error onPost ==> " + e.toString());
             }
-
         }   // onPost
-
     }   // MyConnectedBread
 
     @Override
@@ -126,28 +108,21 @@ public class showMenuActivity extends AppCompatActivity {
         super.onResume();
         synBreadTABLE();
     }
-
     @Override
     protected void onRestart() {
         super.onRestart();
         synBreadTABLE();
     }  // ใช้งานไม่ได้
-
     private void synBreadTABLE() {
-
         MyConnectedBread myConnectedBread = new MyConnectedBread();
         myConnectedBread.execute();
 
     } //  synBreadTABLE
-
     public void clickConfirmOrder(View view) {
-
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME, // เปิดฐานข้อมูล Heyhey.db
                 MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER,null);
-                                                // ดึงค่าจากตาราง OrderTABLE ทั้งหมด
+        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER,null);// ดึงค่าจากตาราง OrderTABLE ทั้งหมด
         if (objCursor.getCount() > 0) { // นับค่าที่ดึงมาว่ามีกี่แถว แล้ว เปรียบเทียบกับ 0
-
             //Have Data มีข้อมูล
             Intent objIntent = new Intent(showMenuActivity.this, ConfirmOrderActivity.class); // ให้โชว์หน้า ConfirmOrderActivity
             objIntent.putExtra("idUser", strID); // ส่งID ของลูกค้าไปด้วย
