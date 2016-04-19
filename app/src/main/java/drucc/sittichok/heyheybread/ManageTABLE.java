@@ -44,6 +44,17 @@ public class ManageTABLE {
     public static final String COLUMN_CustomerID = "CustomerID";
     public static final String COLUMN_GrandTotal = "GrandTotal";
 
+    public static final String TABLE_TBORDER_DETAIL = "tborderdetail";
+    public static final String COLUMN_OrderNo = "OrderNo";
+    public static final String COLUMN_OrderDetail_ID = "OrderDetail_ID";
+
+    public static final String COLUMN_Product_ID = "Product_ID";
+    public static final String COLUMN_Amount = "Amount";
+    public static final String COLUMN_PriceTotal = "PriceTotal";
+
+
+
+
 
     public ManageTABLE(Context context) {
 
@@ -54,6 +65,26 @@ public class ManageTABLE {
 
 
     } //Constructor
+
+    public long addtbOrderDetail(String strOrderNo,
+                                 String strOrderDetail_ID,
+                                 String strProduct_ID,
+                                 String strAmount,
+                                 String strPrice,
+                                 String strPriceTotal) {
+
+        ContentValues objContentValues = new ContentValues();
+        //ContentValues คือ obj ที่ใช้ในการเชื่อมต่อฐานข้อมูล มันคือตัวกลาง
+
+        objContentValues.put(COLUMN_OrderNo, strOrderNo);
+        objContentValues.put(COLUMN_OrderDetail_ID,strOrderDetail_ID);
+        objContentValues.put(COLUMN_Product_ID,strProduct_ID);
+        objContentValues.put(COLUMN_Amount,strAmount);
+        objContentValues.put(COLUMN_Price,strPrice);
+        objContentValues.put(COLUMN_PriceTotal,strPriceTotal);
+
+        return writeSqLiteDatabase.insert(TABLE_TBORDER_DETAIL,null,objContentValues);
+    }   // addtbOrderDetail
 
     public long addtbOrder(String strorderdate,
                                   String strCustomerID,

@@ -53,11 +53,20 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "Item text)";
 
     private static final String CREATE_TBORDER = "create table tborder(" +
-            "_OrderNo integer primary key," +
+            "_id integer primary key," +
             "OrderDate text," +
             "CustomerID text," +
-            "GrandTotal float(18,2)," +
+            "GrandTotal text," +
             "Status text)";
+
+    private static final String CREATE_TBORDER_DETAIL = "create table tborderdetail(" +
+            "_id integer primary key," +
+            "OrderNo text," +
+            "OrderDetail_ID text," +
+            "Product_ID text," +
+            "Amount text," +
+            "Price text," +
+            "PriceTotal text)";
 
     public MyOpenHelper(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -72,6 +81,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_ORDER);
         db.execSQL(CREATE_TABLE_ORDER_FINISH);
         db.execSQL(CREATE_TBORDER);
+        db.execSQL(CREATE_TBORDER_DETAIL);
 
     }
 

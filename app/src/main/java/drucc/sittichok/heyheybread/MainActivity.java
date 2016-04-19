@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(myPolicy);   //เปิดโปรโตรคอลให้แอพเชื่อมต่ออินเตอร์เน็ตได้ ใช้ได้ทั้งหมด โดยใช้คำสั่ง permitAll
 
         int intTimes = 1;
-        while (intTimes <= 4) {
+        while (intTimes <= 5) {
 
             InputStream objInputStream = null;
             String strJSON = null;
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             String strURLbread = "http://swiftcodingthai.com/mos/php_get_bread_mos.php";
             String strURLorder = "http://swiftcodingthai.com/mos/php_get_order_mos.php";
             String strURLtborder = "http://swiftcodingthai.com/mos/php_get_tborder_mos.php";
+            String strURLtborderDetail = "http://swiftcodingthai.com/mos/php_get_tborder_detail_mos.php";
 
             HttpPost objHttpPost = null;
 
@@ -145,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 4:
                         objHttpPost = new HttpPost(strURLtborder);
+                        break;
+                    case 5:
+                        objHttpPost = new HttpPost(strURLtborderDetail);
                         break;
 
                 }   // switch
@@ -232,8 +236,6 @@ public class MainActivity extends AppCompatActivity {
                             objManageTABLE.addNewOrderFinish(stridReceive, strName1, strDate, strSurname1,
                                    strAddress1, strPhone1, strBread1, strPrice1, strItem1);
 
-
-
                             break;
                         case 4: // tborder
                             String strOrderDate = object.getString(ManageTABLE.COLUMN_OrderDate);
@@ -242,6 +244,19 @@ public class MainActivity extends AppCompatActivity {
                             String strStatus1 = object.getString(ManageTABLE.COLUMN_Status);
 
                             objManageTABLE.addtbOrder(strOrderDate, strCustomerID, strGrandTotal, strStatus1);
+                            break;
+
+                        case 5: // tborderdetail
+                            String strOrderNo = object.getString(ManageTABLE.COLUMN_OrderNo);
+                            String strOrderDetail_ID = object.getString(ManageTABLE.COLUMN_OrderDetail_ID);
+                            String strProduct_ID = object.getString(ManageTABLE.COLUMN_Product_ID);
+                            String strAmount2 = object.getString(ManageTABLE.COLUMN_Amount);
+                            String strPrice2 = object.getString(ManageTABLE.COLUMN_Price);
+                            String strPriceTotal = object.getString(ManageTABLE.COLUMN_PriceTotal);
+
+                            objManageTABLE.addtbOrderDetail(strOrderNo, strOrderDetail_ID, strProduct_ID,
+                                    strAmount2,strPrice2,strPriceTotal);
+                            break;
 
 
                     }   //switch
@@ -273,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
         objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER, null, null);
         objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER_FINISH, null, null);
         objSqLiteDatabase.delete(ManageTABLE.TABLE_TBORDER, null, null);
+        objSqLiteDatabase.delete(ManageTABLE.TABLE_TBORDER_DETAIL, null, null);
     }
 
     private void testAddValue() {
