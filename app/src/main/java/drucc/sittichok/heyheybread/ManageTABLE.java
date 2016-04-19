@@ -39,6 +39,12 @@ public class ManageTABLE {
 
     public static final String TABLE_ORDER_FINISH = "orderTABLE_FINISH";
 
+    public static final String TABLE_TBORDER = "tborder";
+    public static final String COLUMN_OrderDate = "OrderDate";
+    public static final String COLUMN_CustomerID = "CustomerID";
+    public static final String COLUMN_GrandTotal = "GrandTotal";
+
+
     public ManageTABLE(Context context) {
 
         //Create & Connected
@@ -48,6 +54,25 @@ public class ManageTABLE {
 
 
     } //Constructor
+
+    public long addtbOrder(String strorderdate,
+                                  String strCustomerID,
+                                  String strGrandTotal,
+                                  String strStatus) {
+
+        ContentValues objContentValues = new ContentValues();
+        //ContentValues คือ obj ที่ใช้ในการเชื่อมต่อฐานข้อมูล มันคือตัวกลาง
+
+        objContentValues.put(COLUMN_OrderDate, strorderdate);
+        objContentValues.put(COLUMN_CustomerID,strCustomerID);
+        objContentValues.put(COLUMN_GrandTotal,strGrandTotal);
+        objContentValues.put(COLUMN_Status,strStatus);
+
+
+        return writeSqLiteDatabase.insert(TABLE_TBORDER,null,objContentValues);
+    }   // addtbOrder
+
+
     // หาชื่อขนมปังจาก breadTABLE
     public String[] searchBreadStock(String strBread) {
         try {

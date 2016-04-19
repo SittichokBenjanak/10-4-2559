@@ -114,13 +114,14 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(myPolicy);   //เปิดโปรโตรคอลให้แอพเชื่อมต่ออินเตอร์เน็ตได้ ใช้ได้ทั้งหมด โดยใช้คำสั่ง permitAll
 
         int intTimes = 1;
-        while (intTimes <= 3) {
+        while (intTimes <= 4) {
 
             InputStream objInputStream = null;
             String strJSON = null;
             String strURLuser = "http://swiftcodingthai.com/mos/php_get_user_mos.php";
             String strURLbread = "http://swiftcodingthai.com/mos/php_get_bread_mos.php";
             String strURLorder = "http://swiftcodingthai.com/mos/php_get_order_mos.php";
+            String strURLtborder = "http://swiftcodingthai.com/mos/php_get_tborder_mos.php";
 
             HttpPost objHttpPost = null;
 
@@ -141,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         objHttpPost = new HttpPost(strURLorder);
+                        break;
+                    case 4:
+                        objHttpPost = new HttpPost(strURLtborder);
                         break;
 
                 }   // switch
@@ -231,6 +235,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                             break;
+                        case 4: // tborder
+                            String strOrderDate = object.getString(ManageTABLE.COLUMN_OrderDate);
+                            String strCustomerID = object.getString(ManageTABLE.COLUMN_CustomerID);
+                            String strGrandTotal = object.getString(ManageTABLE.COLUMN_GrandTotal);
+                            String strStatus1 = object.getString(ManageTABLE.COLUMN_Status);
+
+                            objManageTABLE.addtbOrder(strOrderDate, strCustomerID, strGrandTotal, strStatus1);
 
 
                     }   //switch
@@ -261,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         objSqLiteDatabase.delete(ManageTABLE.TABLE_BREAD, null, null);
         objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER, null, null);
         objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER_FINISH, null, null);
+        objSqLiteDatabase.delete(ManageTABLE.TABLE_TBORDER, null, null);
     }
 
     private void testAddValue() {

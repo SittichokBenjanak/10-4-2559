@@ -26,7 +26,6 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "_id integer primary key," +
             "Bread text," +
             "Price text," +
-
             "Image text," +
             "Status text);";
 
@@ -53,6 +52,13 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "Price text," +
             "Item text)";
 
+    private static final String CREATE_TBORDER = "create table tborder(" +
+            "_OrderNo integer primary key," +
+            "OrderDate text," +
+            "CustomerID text," +
+            "GrandTotal float(18,2)," +
+            "Status text)";
+
     public MyOpenHelper(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
 
@@ -65,6 +71,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_BREAD);
         db.execSQL(CREATE_TABLE_ORDER);
         db.execSQL(CREATE_TABLE_ORDER_FINISH);
+        db.execSQL(CREATE_TBORDER);
 
     }
 
