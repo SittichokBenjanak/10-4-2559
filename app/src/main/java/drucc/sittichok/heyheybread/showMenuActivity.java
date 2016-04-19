@@ -40,10 +40,12 @@ public class showMenuActivity extends AppCompatActivity {
     // Explicit
     private String strID;   // id ของ User ที่ login อยู่
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_menu);
+
         //Synchronize breadTABLE
         synBreadTABLE();
     }   //  onCreate

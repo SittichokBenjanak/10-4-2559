@@ -11,6 +11,7 @@ import android.widget.ImageView;
 public class HubActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Explicit
+
     private ImageView orderImageView, readImageView,
     editImageView, mapImageView, complacencyImageView;
     private String idString;    // รับค่า Receive id ที่ user login อยู่
@@ -25,6 +26,8 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
         //Image Controller
         imageController();
     }   // onCreate
+
+
 
     private void imageController() {
         idString = getIntent().getStringExtra("ID");
@@ -63,6 +66,7 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
                 Intent intent = new Intent(HubActivity.this, EditUser.class);
                 intent.putExtra("ID", idString);
                 startActivity(intent);
+
                 break;
 
             case R.id.imageView5:

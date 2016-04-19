@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }   // checkUser
 
-    private void synJSONtoSQLite() {
+    public void synJSONtoSQLite() {
         StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(myPolicy);   //เปิดโปรโตรคอลให้แอพเชื่อมต่ออินเตอร์เน็ตได้ ใช้ได้ทั้งหมด โดยใช้คำสั่ง permitAll
         int intTimes = 1;
