@@ -14,18 +14,14 @@ import com.squareup.picasso.Picasso;
  * Created by mosza_000 on 3/1/2559.
  */
 public class MenuAdapter extends BaseAdapter{
-
     //Explicit
     private Context objContext;
     private String[] iconStrings,breadStrings,priceStrings;
-
     public MenuAdapter(Context objContext,
-
                        String[] priceStrings,
                        String[] breadStrings,
                        String[] iconStrings) {
         this.objContext = objContext;
-
         this.priceStrings = priceStrings;
         this.breadStrings = breadStrings;
         this.iconStrings = iconStrings;

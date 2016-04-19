@@ -13,33 +13,26 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
     // Explicit
     private ImageView orderImageView, readImageView,
     editImageView, mapImageView, complacencyImageView;
-
     private String idString;    // รับค่า Receive id ที่ user login อยู่
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
-
         //Bind Widget
         bindWidget();
 
         //Image Controller
         imageController();
-
     }   // onCreate
 
-
     private void imageController() {
-
         idString = getIntent().getStringExtra("ID");
         orderImageView.setOnClickListener(this);
         readImageView.setOnClickListener(this);
         editImageView.setOnClickListener(this);
         mapImageView.setOnClickListener(this);
         complacencyImageView.setOnClickListener(this);
-
     }
 
     private void bindWidget() {
@@ -58,30 +51,28 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
                 Intent objIntent = new Intent(HubActivity.this, showMenuActivity.class);
                 objIntent.putExtra("ID", idString);
                 startActivity(objIntent);
-
                 break;
+
             case R.id.imageView3:
                 //Read Order
                 clickReadOrder();
-
                 break;
+
             case R.id.imageView4:
                 //Edit Account
                 Intent intent = new Intent(HubActivity.this, EditUser.class);
                 intent.putExtra("ID", idString);
                 startActivity(intent);
                 break;
+
             case R.id.imageView5:
                 //My Map
-
                 break;
+
             case R.id.imageView6:
                 // OrderHistory
-
                 break;
         }   //switch
-
-
     }   // onClick
 
     private void clickReadOrder() {
@@ -94,8 +85,7 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
             startActivity(objIntent);
         } else {
             MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            objMyAlertDialog.errorDialog(HubActivity.this,"Please order","กรุณาสั่งสินค้าก่อนครับ");
+            objMyAlertDialog.errorDialog(HubActivity.this,"ยังไม่มีการสั่งซื้อ","กรุณาสั่งสินค้าก่อนครับ");
         }
-
     }
 }   // Main Class

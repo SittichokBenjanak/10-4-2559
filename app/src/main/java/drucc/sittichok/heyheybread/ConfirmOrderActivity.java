@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConfirmOrderActivity extends AppCompatActivity {
-
     // Explicit
     private TextView dateTextView, nameTextView,addressTextView,
             phoneTextView,totalTextView, idReceiveTextView;
@@ -58,15 +57,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirm_order);
 
         strIDuser = getIntent().getStringExtra("idUser");
-
         // Bind Widget  กำหนตตำแหน่งในรายละเอียดการสั่งซื้อ
         bindWidget();
 
         // Read All Data  นำค่าที่ลูกค้าสั่งมาแสดง และ ส่งค่า ชื่อ นามสกุล ที่ อยู่ เบอร์ โทร ของ ลูกค้า และรายการที่สั่ง
         readAllData();
-
-        // Find ID receive
-        findIDreceive();
 
         //Show View   โชว์ ชื่อ นามสกุล ที่ อยู่ เบอร์โทร ราคารวม
         showView();
@@ -79,7 +74,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     public class ConnectedOrderDetail extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
-
             try {
 
                 OkHttpClient okHttpClient = new OkHttpClient();
@@ -88,12 +82,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 Response response = okHttpClient.newCall(request).execute();
                 return response.body().string();
 
-
             } catch (Exception e) {
                 Log.d("12April", "doInBack ==> " + e.toString());
                 return null;
             }
-
         }   // doInback
 
         @Override
@@ -101,7 +93,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             super.onPostExecute(strJSON);
 
             try {
-
                 JSONArray jsonArray = new JSONArray(strJSON);
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 strOrderNo = jsonObject.getString("OrderNo");
@@ -109,47 +100,17 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.d("12April", "onPost ==> " + e.toString());
             }
-
         }   // onPost
     }   // ConnectedOrderDetail
 
-
     private void findLastOrderNo() {
-
         ConnectedOrderDetail connectedOrderDetail = new ConnectedOrderDetail();
         connectedOrderDetail.execute();
 
-
-
     } // findLastOrderNo
 
-    private void findIDreceive() {
-
-        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
-                MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER_FINISH, null);
-        objCursor.moveToFirst(); // ไปบนสุด
-        objCursor.moveToLast(); // แล้วลงล่างสุด
-
-        String strIDreceive = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_idReceive));
-        Log.d("Receive", "Receive Last = " + strIDreceive);
-
-        String[] idReceiveStrings = strIDreceive.split("#");
-        int inttext = (Integer.parseInt(idReceiveStrings[1]) + 1);
-
-        Log.d("Receive", "text = " + inttext);
-
-        strCurrentIDReceive = idReceiveStrings[0] + "#" + (Integer.toString(inttext));
-        idReceiveTextView.setText(strCurrentIDReceive);
-
-        objCursor.close();
-
-    }   // findIDreceive
-
     public void clickFinish(View view) {
-
         Log.d("12April", "clickFinish OrderNo ล่าสุดที่อ่าได้ ==> " + strOrderNo);
-
         //Read All orderTABLE
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME, // เปิดฐานข้อมูล
                 MODE_PRIVATE, null);
@@ -161,7 +122,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         //**********************************************************************************************************************
 
         for (int i =0; i<objCursor.getCount();i++) {    // นำOrder มานับแถว ถ้ามีข้อมูล ให้ทำ
-
             strDate = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Date));  // รับค่า เวลา
             String strName = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Name)); // รับค่า ชื่อ
             String strSurname = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Surname)); // รับค่านามสกุล
@@ -175,9 +135,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy
                     .Builder().permitAll().build();
             StrictMode.setThreadPolicy(myPolicy);   // อนุญาตืให้ myPolicy เชื่อมต่อ โปรโตคอล ได้
-
-
-
 
 //            // Update orderTABLE_mos
             try {
@@ -198,20 +155,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 HttpPost objHttpPost = new HttpPost("http://swiftcodingthai.com/mos/php_add_order_master.php"); // ลิ้งไปที่ไฟล์นี้
                 objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8")); // ให้ลองรับ ภาษาไทย
                 objHttpClient.execute(objHttpPost);
-
                 if (i == (objCursor.getCount() - 1) ) {
-
                     Toast.makeText(ConfirmOrderActivity.this,"Confirm success", // โชว์ข้อความการยืนยัน 3.5 วินาที
                             Toast.LENGTH_SHORT).show();
                 }   // if
-
 
             } catch (Exception e) {
                 Log.d("hey", "Error Cannot Update to mySQL ==> " + e.toString());
             }   // end of TryCase 1
 
             try {
-
                 //Find Id Bread
                 ManageTABLE objManageTABLE = new ManageTABLE(this);
                 String[] resultStrings = objManageTABLE.SearchBread(strBread);
@@ -221,7 +174,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 Log.d("16Feb", "Cannot Delete Stock");
 
             }// end of TryCase 2
-
             objCursor.moveToNext(); // ทำต่อ
 
             //**********************************************************************************************************************
@@ -282,7 +234,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         //Delete OrderTABLE
         objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER,null,null);
 
-
     }   // clickFinish
 
     private void updateTotborderdetail(String strOrderNo,
@@ -311,7 +262,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             public void onFailure(Request request, IOException e) {
                 Log.d("12April", "Fail to Upload");
             }
-
             @Override
             public void onResponse(Response response) throws IOException {
 
@@ -323,10 +273,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }   // updateTotborderdetail
 
     private String findProductID(String strBread) {
@@ -371,8 +317,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
             httpClient.execute(httpPost);
 
-
-
             Log.i("11April", "Update Finish");
 
         } catch (Exception e) {
@@ -380,87 +324,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         }
 
     }   // updateTotborder
-
-    private String findIDuser(String strUser) {
-
-        String strIDuser = null;
-
-        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
-                MODE_PRIVATE,null);
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM userTABLE WHERE Name = " + "'" + strUser + "'", null);
-        cursor.moveToFirst();
-        strIDuser = cursor.getString(0);
-        cursor.close();
-
-        return strIDuser;
-    }
-
-    private void updateBreadStock(String strBread, String strItem) {
-
-        String tag = "updateBreadStock";
-        int intCurrentStock;
-        String strCurrentStock;
-        String strID;
-
-        // หา ID ของ Bread
-        try {
-
-            ManageTABLE objmanageTABLE = new ManageTABLE(this);
-            String[] resultBread = objmanageTABLE.searchBreadStock(strBread);
-
-
-            strID = resultBread[0];
-            Log.d(tag, "ID bread ==> " + strID);
-
-
-            Log.d(tag, "Stock ที่อ่านได้ จาก ID = " + resultBread[2]); // ดูที่ เมธอด searchBreadStock มีแค่ 3 ตัว ที่ดึงมา
-
-            intCurrentStock = Integer.parseInt(resultBread[2]) - Integer.parseInt(strItem);
-            strCurrentStock = Integer.toString(intCurrentStock);
-
-            Log.d(tag, "CurrentStock ==> " + strCurrentStock);
-
-            //Edit Value on breadTABLE
-            editVlueOnBreadTABLE(strID, strCurrentStock);
-
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-    }   // updateBreadStock
-
-    private void editVlueOnBreadTABLE(String strID, String strCurrentStock) {
-
-        String tag = "updateBreadStock";
-
-        StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy
-                .Builder().permitAll().build();
-        StrictMode.setThreadPolicy(threadPolicy);
-
-        try {
-
-            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("isAdd", "true"));
-            nameValuePairs.add(new BasicNameValuePair("id",strID));
-            nameValuePairs.add(new BasicNameValuePair("Amount",strCurrentStock));
-
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/php_edit_stock_mos.php");
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-            httpClient.execute(httpPost);
-
-            Log.d(tag, "Edit Finish");
-
-
-        } catch (Exception e) {
-            Log.d(tag, "ไม่สามารถ Edit ได้ " + e.toString());
-        }
-
-
-
-    }   // editVlueOnBreadTABLE
 
 
     public void clickMore(View view) {
@@ -495,8 +358,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         String[] noStrings = new String[objCursor.getCount()]; // นับจำนวนของ ลำดับไอเทม
         String[] amountStrings = new String[objCursor.getCount()]; // นับจำนวน ราคารวม คือ item * price ได้ sum ผลรวม
 
-
-
         for (int i=0; i<objCursor.getCount();i++) {
 
             nameOrderStrings[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Bread)); // รับค่าชื่อขนมปัง
@@ -512,7 +373,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             // ค่าผมรวมทั้งหมด total เอา amountStrings[i] ทั้งหมด มา+กัน
 
         }   // for
-
 
         objCursor.close();
 
@@ -584,7 +444,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         phoneTextView = (TextView) findViewById(R.id.textView22); // ตำแหน่งเบอร์
         totalTextView = (TextView) findViewById(R.id.textView23); // ตำแหน่งราคารวม
         orderListView = (ListView) findViewById(R.id.listView2); // ตำแหน่งรายการสินค้าที่ลูกค้าสั่งซื้อ
-        idReceiveTextView = (TextView) findViewById(R.id.textView30); // ตำแหน่ง รหัสรายการสั่งซื้อ
+//        idReceiveTextView = (TextView) findViewById(R.id.textView30); // ตำแหน่ง รหัสรายการสั่งซื้อ
 
 
     }   //bindWidget

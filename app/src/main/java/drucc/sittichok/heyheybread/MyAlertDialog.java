@@ -20,11 +20,8 @@ public class MyAlertDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
             }
         });
         objBuilder.show();
-
     }   // errorDialog
-
 }   //Main Class

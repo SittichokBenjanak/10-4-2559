@@ -21,7 +21,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 public class EditUser extends AppCompatActivity {
-
     // Explicit
     private EditText passwordEditText,
             nameEditText,surnameEditText,addressEditText,
@@ -35,18 +34,14 @@ public class EditUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
-
         // Bind Widget
         bindWidget();
 
         //Show View
         showView();
-
-
     } // Main Method
 
     private void showView() {
-
         strID = getIntent().getStringExtra("ID");
         SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE,null);
@@ -65,13 +60,9 @@ public class EditUser extends AppCompatActivity {
         surnameEditText.setText(resultStrings[4]);
         addressEditText.setText(resultStrings[5]);
         phoneEditText.setText(resultStrings[6]);
-
-
     }   // showView
 
     public void clickSaveEdit(View view) {
-
-
         passwordString = passwordEditText.getText().toString().trim();
         nameString = nameEditText.getText().toString().trim();
         surnameString = surnameEditText.getText().toString().trim();
@@ -80,18 +71,13 @@ public class EditUser extends AppCompatActivity {
 
         // Check Space
         if (checkSpace()) {
-
             // ถ้ามีช่องว่าง
             MyAlertDialog myAlertDialog = new MyAlertDialog();
             myAlertDialog.errorDialog(this, "มีช่องว่าง","กรุณากรอกให้ครบทุกช่อง");
-
         }  else {
             // OK  On space
             updateValueToServer();
         }
-
-
-
     } // clickSaveEdit
 
     private void updateValueToServer() {
@@ -111,12 +97,9 @@ public class EditUser extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
             }
-
             @Override
             public void onResponse(Response response) throws IOException {
-
                 try {
                     if (response.isSuccessful()) {
                         Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
@@ -125,20 +108,14 @@ public class EditUser extends AppCompatActivity {
                     } else {
                         Toast.makeText(EditUser.this,"แก้ไขข้อมูลล้มเหลว",Toast.LENGTH_SHORT).show();
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
-
         finish();
         Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
-
     }   // updateValueToServer
-
 
     private boolean checkSpace() {
         return
@@ -147,11 +124,10 @@ public class EditUser extends AppCompatActivity {
                 surnameString.equals("") ||
                 addressString.equals("") ||
                 phoneString.equals("");
-    }
+    }   // checkSpace
 
     public void clickCancelEdit(View view) {
         finish();
-
     } // clickCancelEdit
 
     private void bindWidget() {
