@@ -50,17 +50,12 @@ public class ManageTABLE {
     public static final String COLUMN_Amount = "Amount";
     public static final String COLUMN_PriceTotal = "PriceTotal";
 
-
-
-
-
     public ManageTABLE(Context context) {
 
         //Create & Connected
         objMyOpenHelper = new MyOpenHelper(context);
         writeSqLiteDatabase = objMyOpenHelper.getWritableDatabase();
         readSqLiteDatabase = objMyOpenHelper.getReadableDatabase();
-
 
     } //Constructor
 
@@ -97,11 +92,8 @@ public class ManageTABLE {
         objContentValues.put(COLUMN_GrandTotal,strGrandTotal);
         objContentValues.put(COLUMN_Status,strStatus);
 
-
         return writeSqLiteDatabase.insert(TABLE_TBORDER,null,objContentValues);
     }   // addtbOrder
-
-
 
     // หาชื่อขนมปังจาก orderTABLE
     public String[] SearchBread(String strBread) {

@@ -195,7 +195,7 @@ public class EditUser extends AppCompatActivity {
             public void onResponse(Response response) throws IOException {
                 try {
                     if (response.isSuccessful()) {
-                        Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditUser.this,"แก้ไขข้อมูลสำเร็จ",Toast.LENGTH_SHORT).show();
                         finish();
 
                     } else {
@@ -207,7 +207,7 @@ public class EditUser extends AppCompatActivity {
             }
         });
         finish();
-        Toast.makeText(EditUser.this,"แก้ไขข้อมูลเรียบร้อย",Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditUser.this,"แก้ไขข้อมูลสำเร็จ",Toast.LENGTH_SHORT).show();
     }   // updateValueToServer
 
     private boolean checkSpace() {

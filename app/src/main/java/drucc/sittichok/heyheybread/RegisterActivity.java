@@ -65,12 +65,12 @@ public class RegisterActivity extends AppCompatActivity {
                 phoneString.equals("")) {
             //Have Space  ถ้ามีช่องว่างให้ทำ
             MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            objMyAlertDialog.errorDialog(RegisterActivity.this, "Please fill in the full", "กรุณากรอกข้อมูลให้ครบทุกช่อง");
+            objMyAlertDialog.errorDialog(RegisterActivity.this, "มีช่องว่าง", "กรุณากรอกข้อมูลให้ครบทุกช่อง");
         } else {
             //No Space
             if (checkUser()) {
                 MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-                objMyAlertDialog.errorDialog(RegisterActivity.this,"Do not use this user","กรุณาเปลี่ยน User ใหม่ มีใครอื่นใช้แล้ว");
+                objMyAlertDialog.errorDialog(RegisterActivity.this,"ชื่อผู้ใช้นี้มีคนใช้แล้ว","กรุณาเปลี่ยนชื่อผู้ใช้ใหม่");
             } else {
                 confirmRegister();
             }
@@ -81,21 +81,21 @@ public class RegisterActivity extends AppCompatActivity {
         // เมื่อกดบันทึก โชว์ กล่องข้อความ แบบ Builder
         AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_myaccount);  // ตั้งค่า รูป
-        objBuilder.setTitle("Please check your data");  // หัวข้อ
-        objBuilder.setMessage("User = " + userString + "\n" +  // ข้อความที่จะโชว์ ทั้ง หมด รับค่าจากที่ ลูกค้ากรอกมา
-                "Password = " + passwordString + "\n" +
-                "Name = " + nameString + "\n" +
-                "Surname = " + surnameString + "\n" +
-                "Address = " + addressString + "\n" +
-                "Phone = " + phoneString + "\n");
-        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {  // ถ้ากดตกลง ให้อัฟเดทเข้าฐานข้อมูล
+        objBuilder.setTitle("ตรวจสอบข้อมูลการสมัคร");  // หัวข้อ
+        objBuilder.setMessage("ชื่อผู้ใช้ = " + userString + "\n" +  // ข้อความที่จะโชว์ ทั้ง หมด รับค่าจากที่ ลูกค้ากรอกมา
+                "รหัสผ่าน = " + passwordString + "\n" +
+                "ชื่อ = " + nameString + "\n" +
+                "นามสกุล = " + surnameString + "\n" +
+                "ที่อยู่ = " + addressString + "\n" +
+                "เบอร์โทรศัพท์ = " + phoneString + "\n");
+        objBuilder.setPositiveButton("ยืนยันการสมัคร", new DialogInterface.OnClickListener() {  // ถ้ากดตกลง ให้อัฟเดทเข้าฐานข้อมูล
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 upDateMySQL();
                 dialog.dismiss();  // dialog.dismiss ให้ dialog หายไป
             }
         });
-        objBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {  // ถ้ายกเลิก ให้ปิดข้อความลงเฉยๆ อยู่หน้าเดิม
+        objBuilder.setNegativeButton("ยกเลิกการสมัคร", new DialogInterface.OnClickListener() {  // ถ้ายกเลิก ให้ปิดข้อความลงเฉยๆ อยู่หน้าเดิม
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();  // dialog.dismiss ให้ dialog หายไป
@@ -122,10 +122,10 @@ public class RegisterActivity extends AppCompatActivity {
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs,"UTF-8"));
             objHttpClient.execute(objHttpPost);
 
-            Toast.makeText(RegisterActivity.this, "Save success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "สมัครสมาชิกสำเร็จ", Toast.LENGTH_SHORT).show();
             // โชว์ ข้อความ ว่า บันทึกสำเร็จ แล้วหายไป 3.5วื
         } catch (Exception e) {
-            Toast.makeText(RegisterActivity.this,"\n" + "Save failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this,"\n" + "สมัครสมาชิกไม่สำเร็จ", Toast.LENGTH_SHORT).show();
         }
         // Intent To MainActivity
         startActivity(new Intent(RegisterActivity.this,MainActivity.class));  // กลับไปหน้า Main หรือ หน้า Login

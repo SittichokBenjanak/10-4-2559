@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (userString.equals("") || passwordString.equals("")) {  //อีคั่ว
             //มีช่องว่าง
             MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            objMyAlertDialog.errorDialog(MainActivity.this,"มีช่องว่าง!!!","กรุณากรอกข้อมูลให้ครบ");
+            objMyAlertDialog.errorDialog(MainActivity.this,"มีช่องว่าง","กรุณากรอกข้อมูลให้ครบ");
         } else {
             //ไม่มีช่องว่าง
             checkUser();
@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(objIntent);
             } else {
                 MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-                objMyAlertDialog.errorDialog(MainActivity.this,"รหัสผ่านผิด!!!","กรุณากรอกรหัสใหม่");
+                objMyAlertDialog.errorDialog(MainActivity.this,"รหัสผ่านผิด","กรุณากรอกรหัสผ่านใหม่");
             }
         } catch (Exception e) {
             MyAlertDialog objMyAlertDialog = new MyAlertDialog();
-            objMyAlertDialog.errorDialog(MainActivity.this,"ชื่อผู้ใช้ไม่ถูกต้อง","ไม่มี "+ userString + " ในฐานข้อมูล" + "กรุณาตรวจเช็คอินเตอร์เน็ต");
+            objMyAlertDialog.errorDialog(MainActivity.this,"ชื่อผู้ใช้ไม่ถูกต้อง","ไม่มี "+ userString + " ในฐานข้อมูล" );
         }
     }   // checkUser
 

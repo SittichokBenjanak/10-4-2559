@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please Edit"
+        android:text="@string/e3"
         android:id="@+id/textView16"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/h1" />
@@ -28,18 +28,21 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="save"
             android:id="@+id/button3"
             android:layout_weight="1"
-            android:onClick="clickSaveEdit" />
+            android:onClick="clickSaveEdit"
+            android:text="@string/e5"
+            android:textSize="20dp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="cancel"
+            android:text="@string/e6"
             android:id="@+id/button8"
             android:layout_weight="1"
-            android:onClick="clickCancelEdit" />
+            android:onClick="clickCancelEdit"
+            android:textSize="20dp"
+            android:singleLine="false" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +63,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="User"
+                android:text="@string/c4"
                 android:id="@+id/textView35"
                 android:textSize="@dimen/h2"
                 android:layout_weight="1" />
@@ -82,7 +85,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/c5"
                 android:id="@+id/textView37"
                 android:textSize="@dimen/h2"
                 android:layout_weight="1" />
@@ -92,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText4"
                 android:layout_weight="2"
-                android:inputType="text" />
+                android:inputType="textPassword|text" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +106,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/c6"
                 android:id="@+id/textView38"
                 android:textSize="@dimen/h2"
                 android:layout_weight="1" />
@@ -124,7 +127,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Surname"
+                android:text="@string/c7"
                 android:id="@+id/textView39"
                 android:textSize="@dimen/h2"
                 android:layout_weight="1" />
@@ -145,7 +148,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Address"
+                android:text="@string/c8"
                 android:id="@+id/textView40"
                 android:textSize="@dimen/h2"
                 android:layout_weight="1" />
@@ -155,7 +158,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText7"
                 android:layout_weight="2"
-                android:inputType="text" />
+                android:inputType="none"
+                android:layout_gravity="top"
+                android:lines="4"
+                android:linksClickable="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,17 +172,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Phone"
+                android:text="@string/c9"
                 android:id="@+id/textView41"
                 android:textSize="@dimen/h2"
-                android:layout_weight="1" />
+                android:layout_weight="3" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText8"
-                android:layout_weight="2"
-                android:inputType="text" />
+                android:layout_weight="3"
+                android:inputType="number|text" />
         </LinearLayout>
     </LinearLayout>
 

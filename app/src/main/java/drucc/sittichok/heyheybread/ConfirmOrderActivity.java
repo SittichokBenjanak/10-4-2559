@@ -40,16 +40,16 @@ import java.util.ArrayList;
 public class ConfirmOrderActivity extends AppCompatActivity {
     // Explicit
     private TextView dateTextView, nameTextView,addressTextView,
-            phoneTextView,totalTextView, idReceiveTextView;
+            phoneTextView,totalTextView;
     private String dateString,nameString,surnameString, addressString,
-            phoneString,totalString;
+            phoneString;
     private ListView orderListView;
     private int totalAnInt = 0;
-    private String strCurrentIDReceive;
     private String strIDuser;
     private String strDate;
     private String strOrderNo;
     private int orderDetailAnInt = 0;
+   
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +123,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         for (int i =0; i<objCursor.getCount();i++) {    // นำOrder มานับแถว ถ้ามีข้อมูล ให้ทำ
             strDate = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Date));  // รับค่า เวลา
-            String strName = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Name)); // รับค่า ชื่อ
-            String strSurname = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Surname)); // รับค่านามสกุล
-            String strAddress = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Address)); // รับค่าที่อยู๋
-            String strPhone = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Phone)); // รับค่าเบอร์โทร
             String strBread = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Bread)); // รับค่าชื่อขนมปัง
             String strPrice = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Price)); // รับค่าราคา
             String strItem = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Item)); // รับค่าไอเทม
@@ -136,33 +132,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     .Builder().permitAll().build();
             StrictMode.setThreadPolicy(myPolicy);   // อนุญาตืให้ myPolicy เชื่อมต่อ โปรโตคอล ได้
 
-//            // Update orderTABLE_mos
-            try {
-
-                ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
-                objNameValuePairs.add(new BasicNameValuePair("isAdd", "true"));
-                objNameValuePairs.add(new BasicNameValuePair("idReceive", strCurrentIDReceive));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Date, strDate));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Name, strName));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Surname, strSurname));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Address, strAddress));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Phone, strPhone));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Bread, strBread));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Price, strPrice));
-                objNameValuePairs.add(new BasicNameValuePair(ManageTABLE.COLUMN_Item, strItem));
-
-                HttpClient objHttpClient = new DefaultHttpClient(); // เปิดโปรโตคอล
-                HttpPost objHttpPost = new HttpPost("http://swiftcodingthai.com/mos/php_add_order_master.php"); // ลิ้งไปที่ไฟล์นี้
-                objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8")); // ให้ลองรับ ภาษาไทย
-                objHttpClient.execute(objHttpPost);
-                if (i == (objCursor.getCount() - 1) ) {
-                    Toast.makeText(ConfirmOrderActivity.this,"Confirm success", // โชว์ข้อความการยืนยัน 3.5 วินาที
-                            Toast.LENGTH_SHORT).show();
-                }   // if
-
-            } catch (Exception e) {
-                Log.d("hey", "Error Cannot Update to mySQL ==> " + e.toString());
-            }   // end of TryCase 1
+            if (i == (objCursor.getCount() - 1) ) {
+                Toast.makeText(ConfirmOrderActivity.this,"สั่งซื้อสินค้าสำเร็จ", // โชว์ข้อความการยืนยัน 3.5 วินาที
+                        Toast.LENGTH_SHORT).show();
+            }   // if
 
             try {
                 //Find Id Bread
@@ -386,6 +359,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+
+
                 myDeleteOrder(i);
 
             } // event
@@ -397,7 +372,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         final SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER, null);
+        final Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_ORDER, null);
         objCursor.moveToFirst();
         objCursor.moveToPosition(position);
         String strBread = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Bread));
@@ -408,23 +383,24 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_myaccount);
-        objBuilder.setTitle("Are you sure ? ");
-        objBuilder.setMessage("Delete order " + strBread +" " +strItem + "ชิ้น");
+        objBuilder.setTitle("คุณแน่ใจใช่ไหม ? ");
+        objBuilder.setMessage("ที่จะลบรายการ " + strBread +" " +strItem + "ชิ้น");
         objBuilder.setCancelable(false);
-        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        objBuilder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                int intID = Integer.parseInt(strID);
-                objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER,
-                        ManageTABLE.COLUMN_id + "=" + intID, null );
-                totalAnInt = 0;
-                readAllData();
-                totalTextView.setText(Integer.toString(totalAnInt));
 
-                dialogInterface.dismiss();
+                    int intID = Integer.parseInt(strID);
+                    objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER,
+                            ManageTABLE.COLUMN_id + "=" + intID, null);
+                    totalAnInt = 0;
+                    readAllData();
+                    totalTextView.setText(Integer.toString(totalAnInt));
+                    dialogInterface.dismiss();
+
             }
         });
-        objBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        objBuilder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
