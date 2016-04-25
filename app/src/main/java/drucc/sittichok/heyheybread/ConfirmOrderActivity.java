@@ -326,11 +326,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     } // clickMore
 
     private void showView() {
-        numberorderTextView.setText("รหัสการสั่งซื้อ : " + strOrderNumber );
+        numberorderTextView.setText("เลขที่สั่งซื้อ : " + strOrderNumber );
         dateTextView.setText("วันที่สั่งซื้อ : " + dateString); // นำค่า Date ใส่ไปใน dateTextView
         nameTextView.setText("ผู้สั่งซื้อ : " + nameString + " " + surnameString); // นำค่า ชื่อ กัย นามสกุล ใส่ไปใน nameTextView
-        addressTextView.setText("ที่อยู่ : " + addressString); // นำค่า ที่อยู่  ใส่ไปใน addressTextView
-        phoneTextView.setText("เบอร์โทรศีพท์ : " + phoneString );    // นำค่า เบอร์โทร ใส่ไปใน phoneTextView
+        addressTextView.setText("สถานะ : " + "รอชำระเงิน"); // นำค่า ที่อยู่  ใส่ไปใน addressTextView
+//        phoneTextView.setText("เบอร์โทรศีพท์ : " + phoneString );    // นำค่า เบอร์โทร ใส่ไปใน phoneTextView
         totalTextView.setText(Integer.toString(totalAnInt) + "      บาท"); // นำค่า ราคารวมทั้งหมด ใส่ไปใน totalTextView
     }   // showView
 
@@ -438,7 +438,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         dateTextView = (TextView) findViewById(R.id.textView19);  // ตำแหน่ง เวลา
         nameTextView = (TextView) findViewById(R.id.textView20);  // ตำแหน่ง ชื่อ
         addressTextView = (TextView) findViewById(R.id.textView21); // ตำแหน่งที่อยู่
-        phoneTextView = (TextView) findViewById(R.id.textView22); // ตำแหน่งเบอร์
+//        phoneTextView = (TextView) findViewById(R.id.textView22); // ตำแหน่งเบอร์
         totalTextView = (TextView) findViewById(R.id.textView23); // ตำแหน่งราคารวม
         orderListView = (ListView) findViewById(R.id.listView2); // ตำแหน่งรายการสินค้าที่ลูกค้าสั่งซื้อ
         numberorderTextView = (TextView) findViewById(R.id.textView30); // ตำแหน่ง รหัสรายการสั่งซื้อ
