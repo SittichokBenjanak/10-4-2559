@@ -40,7 +40,7 @@ import java.util.ArrayList;
 public class ConfirmOrderActivity extends AppCompatActivity {
     // Explicit
     private TextView dateTextView, nameTextView,addressTextView,
-            phoneTextView,totalTextView;
+            phoneTextView,totalTextView,numberorderTextView;
     private String dateString,nameString,surnameString, addressString,
             phoneString;
     private ListView orderListView;
@@ -49,7 +49,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private String strDate;
     private String strOrderNo;
     private int orderDetailAnInt = 0;
-   
+    private String strOrderNumber ;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         // Read All Data  นำค่าที่ลูกค้าสั่งมาแสดง และ ส่งค่า ชื่อ นามสกุล ที่ อยู่ เบอร์ โทร ของ ลูกค้า และรายการที่สั่ง
         readAllData();
 
+        // orderNumber
+        orderNumber();
+
         //Show View   โชว์ ชื่อ นามสกุล ที่ อยู่ เบอร์โทร ราคารวม
         showView();
 
@@ -70,6 +76,19 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         findLastOrderNo();
 
     }   // Main Method
+
+    private void orderNumber() {
+
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE, null);
+        Cursor cursor = objSqLiteDatabase.rawQuery("SELECT * FROM " + ManageTABLE.TABLE_TBORDER, null);
+        cursor.moveToFirst();
+        cursor.moveToLast();
+        strOrderNumber = cursor.getString(cursor.getColumnIndex(ManageTABLE.COLUMN_id));
+        int intOrderNumber = Integer.parseInt(strOrderNumber)+1;
+        strOrderNumber = Integer.toString(intOrderNumber);
+
+    }   // orderNumber
 
     public class ConnectedOrderDetail extends AsyncTask<Void, Void, String> {
         @Override
@@ -157,6 +176,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             Log.d("12April", "clickFinish OrderNo ล่าสุดที่อ่าได้ ==> " + strOrderNo);
             int intOrderNo = Integer.parseInt(strOrderNo)+ 1;
             String strNextOrderNo = Integer.toString(intOrderNo);
+
 
             orderDetailAnInt += 1;
             Log.d("12April", "OrderDetailID(" + (i + 1) +")" + orderDetailAnInt);
@@ -306,6 +326,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     } // clickMore
 
     private void showView() {
+        numberorderTextView.setText("รหัสการสั่งซื้อ : " + strOrderNumber );
         dateTextView.setText("วันที่สั่งซื้อ : " + dateString); // นำค่า Date ใส่ไปใน dateTextView
         nameTextView.setText("ผู้สั่งซื้อ : " + nameString + " " + surnameString); // นำค่า ชื่อ กัย นามสกุล ใส่ไปใน nameTextView
         addressTextView.setText("ที่อยู่ : " + addressString); // นำค่า ที่อยู่  ใส่ไปใน addressTextView
@@ -420,7 +441,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         phoneTextView = (TextView) findViewById(R.id.textView22); // ตำแหน่งเบอร์
         totalTextView = (TextView) findViewById(R.id.textView23); // ตำแหน่งราคารวม
         orderListView = (ListView) findViewById(R.id.listView2); // ตำแหน่งรายการสินค้าที่ลูกค้าสั่งซื้อ
-//        idReceiveTextView = (TextView) findViewById(R.id.textView30); // ตำแหน่ง รหัสรายการสั่งซื้อ
+        numberorderTextView = (TextView) findViewById(R.id.textView30); // ตำแหน่ง รหัสรายการสั่งซื้อ
 
 
     }   //bindWidget
