@@ -41,7 +41,7 @@ public class EditUser extends AppCompatActivity {
             phoneEditText;
     private TextView userTextView;
     private String strID;
-    private String userString,passwordString,nameString,surnameString,addressString, phoneString;
+    private String passwordString,nameString,surnameString,addressString, phoneString;
     private static final String urlSTRING = "http://swiftcodingthai.com/mos/php_edit_user_mos.php";
 
     @Override

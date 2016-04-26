@@ -75,6 +75,10 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
 
             case R.id.imageView6:
                 // OrderHistory
+                Intent intent2 = new Intent(HubActivity.this, HistoryActivity.class);
+                intent2.putExtra("ID", idString);
+                startActivity(intent2);
+
                 break;
         }   //switch
     }   // onClick
