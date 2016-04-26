@@ -40,9 +40,8 @@ import java.util.ArrayList;
 public class ConfirmOrderActivity extends AppCompatActivity {
     // Explicit
     private TextView dateTextView, nameTextView,addressTextView,
-            phoneTextView,totalTextView,numberorderTextView;
-    private String dateString,nameString,surnameString, addressString,
-            phoneString;
+            totalTextView,numberorderTextView;
+    private String dateString,nameString,surnameString;
     private ListView orderListView;
     private int totalAnInt = 0;
     private String strIDuser;
@@ -343,8 +342,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         dateString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Date)); // รับค่า เวลา
         nameString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Name)); // รับค่า ชื่อ
         surnameString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Surname)); // รับค่า นามสกุล
-        addressString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Address)); // รับค่า ที่อยู่
-        phoneString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Phone)); // รับค่าเบอร์โทร
+//        addressString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Address)); // รับค่า ที่อยู่
+//        phoneString = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Phone)); // รับค่าเบอร์โทร
 
         String[] nameOrderStrings = new String[objCursor.getCount()]; // นับจำนวนของ ชื่อสินค้า
         String[] priceStrings = new String[objCursor.getCount()]; // นับจำนวนของ ราคาสินค้า
