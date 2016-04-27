@@ -16,8 +16,12 @@ public class MyOrderAdapter extends BaseAdapter{
     private String[] noStrings, nameorderStrings , itemStrings ,
             priceStrings , sumpriceStrings;
 
-    public MyOrderAdapter(Context objContext, String[] noStrings, String[] nameorderStrings,
-                          String[] itemStrings, String[] priceStrings, String[] sumpriceStrings) {
+    public MyOrderAdapter(Context objContext,
+                          String[] noStrings,
+                          String[] nameorderStrings,
+                          String[] itemStrings,
+                          String[] priceStrings,
+                          String[] sumpriceStrings) {
         this.objContext = objContext;
         this.noStrings = noStrings;
         this.nameorderStrings = nameorderStrings;

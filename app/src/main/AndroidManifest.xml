@@ -45,7 +45,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".HistoryActivity" />
-        <activity android:name=".ShowOrderActivity"></activity>
+        <activity android:name=".ShowOrderActivity" />
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

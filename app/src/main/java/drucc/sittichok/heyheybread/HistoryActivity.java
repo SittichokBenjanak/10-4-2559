@@ -11,7 +11,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     // Explicit
     private String strID;
-    private ListView orderUserListView;
+    private ListView UserOrderListView;
     private String OrderNumberString, DateOrderString, SumPriceString, StatusString;
 
 
@@ -21,18 +21,38 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
         strID = getIntent().getStringExtra("ID");
-        bindWidget();
+        bindWidget();   // ตัวแปล UserOrderListView = ตำแหน่งของ ListViewHistory
+
+        readAllorder();
 
 
     }   // onCreate
 
+    private void readAllorder() {
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE, null);
+        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborder", null);
+        objCursor.moveToFirst();  // ไปอยู่ที่แถวแรก ของ tborder
+
+        String[] NumberOrder = new String[objCursor.getCount()];
+        String[] DateOrder = new String[objCursor.getCount()];
+        String[] PriceOrder = new String[objCursor.getCount()];
+        String[] StatusOrder = new String[objCursor.getCount()];
+
+        for (int i=0; i<objCursor.getCount();i++) {
+
+            NumberOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE))
+
+        }
+
+
+    }   // readAllorder
 
 
     private void bindWidget() {
 
-        orderUserListView = (ListView) findViewById(R.id.listView3);
+        UserOrderListView = (ListView) findViewById(R.id.ListViewHistory);
 
     }   // bindWidget
 
