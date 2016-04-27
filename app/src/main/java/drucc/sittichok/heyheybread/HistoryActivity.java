@@ -32,7 +32,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void readAllorder() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborder", null);
+        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborder WHERE CustomerID = " + strID, null);
         objCursor.moveToFirst();  // ไปอยู่ที่แถวแรก ของ tborder
 
         String[] NumberOrder = new String[objCursor.getCount()];
@@ -42,9 +42,21 @@ public class HistoryActivity extends AppCompatActivity {
 
         for (int i=0; i<objCursor.getCount();i++) {
 
-            NumberOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE))
+            NumberOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_id));
+            DateOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_OrderDate));
+            PriceOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_GrandTotal));
+            StatusOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Status));
 
-        }
+            objCursor.moveToNext();
+
+        }   // for
+
+        objCursor.close();
+
+        // Create ListView
+        OrderUserAdapter objOrderUserAdapter = new OrderUserAdapter(HistoryActivity.this, NumberOrder, DateOrder, PriceOrder, StatusOrder);
+
+        UserOrderListView.setAdapter(objOrderUserAdapter);
 
 
     }   // readAllorder
