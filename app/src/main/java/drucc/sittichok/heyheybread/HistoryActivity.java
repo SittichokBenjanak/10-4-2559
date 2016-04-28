@@ -1,11 +1,14 @@
 package drucc.sittichok.heyheybread;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -151,6 +154,18 @@ public class HistoryActivity extends AppCompatActivity {
         OrderUserAdapter objOrderUserAdapter = new OrderUserAdapter(HistoryActivity.this, NumberOrder, DateOrder, PriceOrder, StatusOrder);
 
         UserOrderListView.setAdapter(objOrderUserAdapter);
+
+        // Show orderdetail
+
+        UserOrderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
+                objIntent.putExtra("ID", strID);
+                startActivity(objIntent);
+
+            }
+        });
 
 
     }   // readAllorder
