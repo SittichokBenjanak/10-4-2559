@@ -3,6 +3,7 @@ package drucc.sittichok.heyheybread;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,8 +38,11 @@ public class HistoryActivity extends AppCompatActivity {
     private String strID;
     private ListView UserOrderListView;
     private String OrderNumberString, DateOrderString, SumPriceString, StatusString;
-
-
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -49,6 +58,9 @@ public class HistoryActivity extends AppCompatActivity {
         readAllorder();
 
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }   // onCreate
 
     private void syntborder() {
@@ -94,7 +106,7 @@ public class HistoryActivity extends AppCompatActivity {
             // 3 Update JSON String to SQLite
             try {
                 JSONArray objJsonArray = new JSONArray(strJSON);
-                for (int i=0; i<objJsonArray.length(); i++) {
+                for (int i = 0; i < objJsonArray.length(); i++) {
                     JSONObject object = objJsonArray.getJSONObject(i);
                     switch (intTimes) {
                         case 1:
@@ -122,22 +134,22 @@ public class HistoryActivity extends AppCompatActivity {
     private void deleteOrder() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE, null);
-        objSqLiteDatabase.delete(ManageTABLE.TABLE_TBORDER,null,null);
+        objSqLiteDatabase.delete(ManageTABLE.TABLE_TBORDER, null, null);
 
     }   // deleteOrder
 
     private void readAllorder() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
                 MODE_PRIVATE, null);
-        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborder WHERE CustomerID = " + strID, null);
+        final Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborder WHERE CustomerID = " + strID, null);
         objCursor.moveToFirst();  // ไปอยู่ที่แถวแรก ของ tborder
 
-        String[] NumberOrder = new String[objCursor.getCount()];
-        String[] DateOrder = new String[objCursor.getCount()];
-        String[] PriceOrder = new String[objCursor.getCount()];
-        String[] StatusOrder = new String[objCursor.getCount()];
+        final String[] NumberOrder = new String[objCursor.getCount()];
+        final String[] DateOrder = new String[objCursor.getCount()];
+        final String[] PriceOrder = new String[objCursor.getCount()];
+        final String[] StatusOrder = new String[objCursor.getCount()];
 
-        for (int i=0; i<objCursor.getCount();i++) {
+        for (int i = 0; i < objCursor.getCount(); i++) {
 
             NumberOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_id));
             DateOrder[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_OrderDate));
@@ -151,7 +163,7 @@ public class HistoryActivity extends AppCompatActivity {
         objCursor.close();
 
         // Create ListView
-        OrderUserAdapter objOrderUserAdapter = new OrderUserAdapter(HistoryActivity.this, NumberOrder, DateOrder, PriceOrder, StatusOrder);
+        final OrderUserAdapter objOrderUserAdapter = new OrderUserAdapter(HistoryActivity.this, NumberOrder, DateOrder, PriceOrder, StatusOrder);
 
         UserOrderListView.setAdapter(objOrderUserAdapter);
 
@@ -160,15 +172,26 @@ public class HistoryActivity extends AppCompatActivity {
         UserOrderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
-                objIntent.putExtra("ID", strID);
-                startActivity(objIntent);
+
+                ChooseOrder(NumberOrder[i]);
+////                Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
+//////                objIntent.putExtra("ID", strID);
+////                objIntent.putExtra("ORDER", NumberOrder);
+//                startActivity(objIntent);
 
             }
         });
 
 
     }   // readAllorder
+
+    private void ChooseOrder(final String NumberOrder) {
+
+        Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
+        objIntent.putExtra("NO",NumberOrder);
+        startActivity(objIntent);
+
+    }   // ChooseOrder
 
 
     private void bindWidget() {
@@ -178,5 +201,43 @@ public class HistoryActivity extends AppCompatActivity {
     }   // bindWidget
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "History Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://drucc.sittichok.heyheybread/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "History Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://drucc.sittichok.heyheybread/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }   // Main Class
