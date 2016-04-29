@@ -1,5 +1,7 @@
 package drucc.sittichok.heyheybread;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +37,34 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void readAllorderdetail() {
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase(MyOpenHelper.DATABASE_NAME,
+                MODE_PRIVATE,null);
+        Cursor objCursor = objSqLiteDatabase.rawQuery("SELECT * FROM tborderdetail WHERE OrderNo = " + strOrderID, null);
+        objCursor.moveToFirst();
+
+        final String[] Orderdetail = new String[objCursor.getCount()];
+        final String[] Productdetail = new String[objCursor.getCount()];
+        final String[] Amountdetail = new String[objCursor.getCount()];
+        final String[] Pricedetail = new String[objCursor.getCount()];
+        final String[] Sumpricedetail = new String[objCursor.getCount()];
+
+        for (int i = 0; i<objCursor.getCount(); i++) {
+            Orderdetail[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_OrderDetail_ID));
+            Productdetail[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Product_ID));
+            Amountdetail[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Amount));
+            Pricedetail[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_Price));
+            Sumpricedetail[i] = objCursor.getString(objCursor.getColumnIndex(ManageTABLE.COLUMN_PriceTotal));
+
+            objCursor.moveToNext();
+
+        }   // for
+        objCursor.close();
+
+        //  Create ListView
+        final DetailAdapter objDetailAdapter = new DetailAdapter(OrderDetailActivity.this, Orderdetail, Productdetail, Amountdetail, Pricedetail, Sumpricedetail);
+
+        detailListView.setAdapter(objDetailAdapter);
+
 
     }   // readAllorderdetail
 
