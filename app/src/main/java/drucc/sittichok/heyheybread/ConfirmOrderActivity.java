@@ -193,11 +193,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             Log.d("12April", "Amount * Price = " + intAmount + "x" + intPrice + " = " + PriceTotal);
 
             updateTotborderdetail(strNextOrderNo,
-                                  strOrderDetail,
-                                  strProductID,
-                                  strItem,
-                                  strPrice,
-                                  strPriceTotal);
+                    strOrderDetail,
+                    strProductID,
+                    strItem,
+                    strPrice,
+                    strPriceTotal);
 
         }   // for
         objCursor.close(); // คืนหน่วยความจำ
@@ -215,7 +215,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         // Intent HubActivity
         Intent objIntent = new Intent(ConfirmOrderActivity.this, HubActivity.class);
-                                // ทำเสร็จแล้ว ให้ กลับไปหน้า HubActivity.class
+        // ทำเสร็จแล้ว ให้ กลับไปหน้า HubActivity.class
         String strID = getIntent().getStringExtra("idUser");
         objIntent.putExtra("ID", strID); //แล้วส่งค่า ID คืนไปที่หน้า HubActivity.class ด้วย
 
@@ -377,16 +377,18 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         // Delete Order
         orderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i , long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                        myDeleteOrder(i);
+                    myDeleteOrder(i);
 
                 } catch (Exception e) {
-                        e.toString();
-                        Intent objIntent = new Intent(ConfirmOrderActivity.this, showMenuActivity.class);
-                        objIntent.putExtra("ID", strIDuser);
-                        startActivity(objIntent);
+                    e.toString();
+                    Intent objIntent = new Intent(ConfirmOrderActivity.this, showMenuActivity.class);
+                    objIntent.putExtra("ID", strIDuser);
+                    startActivity(objIntent);
                 }
+
+
 
             } // event
         });
@@ -406,7 +408,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         Log.d("Hay", "ID ==> " + strID);
 
 
-        final AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_myaccount);
         objBuilder.setTitle("คุณแน่ใจใช่ไหม ? ");
         objBuilder.setMessage("ที่จะลบรายการ " + strBread +" " +strItem + "ชิ้น");
@@ -431,6 +433,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     startActivity(objIntent);
                 }
 
+
+
             }
         });
         objBuilder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
@@ -444,8 +448,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         objCursor.close();
 
     }   // myDeleteOrder
-
-
 
     private void bindWidget() {
 
