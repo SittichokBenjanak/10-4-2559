@@ -377,11 +377,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         // Delete Order
         orderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i , long l) {
+                try {
+                        myDeleteOrder(i);
 
-
-
-                myDeleteOrder(i);
+                } catch (Exception e) {
+                        e.toString();
+                        Intent objIntent = new Intent(ConfirmOrderActivity.this, showMenuActivity.class);
+                        objIntent.putExtra("ID", strIDuser);
+                        startActivity(objIntent);
+                }
 
             } // event
         });
@@ -401,7 +406,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         Log.d("Hay", "ID ==> " + strID);
 
 
-        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_myaccount);
         objBuilder.setTitle("คุณแน่ใจใช่ไหม ? ");
         objBuilder.setMessage("ที่จะลบรายการ " + strBread +" " +strItem + "ชิ้น");
@@ -410,6 +415,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                try {
                     int intID = Integer.parseInt(strID);
                     objSqLiteDatabase.delete(ManageTABLE.TABLE_ORDER,
                             ManageTABLE.COLUMN_id + "=" + intID, null);
@@ -417,6 +423,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     readAllData();
                     totalTextView.setText(Integer.toString(totalAnInt));
                     dialogInterface.dismiss();
+
+                } catch (Exception e) {
+                    e.toString();
+                    Intent objIntent = new Intent(ConfirmOrderActivity.this, showMenuActivity.class);
+                    objIntent.putExtra("ID", strIDuser);
+                    startActivity(objIntent);
+                }
 
             }
         });
@@ -431,6 +444,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         objCursor.close();
 
     }   // myDeleteOrder
+
+
 
     private void bindWidget() {
 
