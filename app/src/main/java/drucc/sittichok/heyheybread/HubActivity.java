@@ -161,6 +161,9 @@ public class HubActivity extends AppCompatActivity implements View.OnClickListen
 
             case R.id.imageView5:
                 //My Map
+                Intent Maps = new Intent(HubActivity.this, MapsActivity.class);
+                startActivity(Maps);
+
                 break;
 
             case R.id.imageView6:
