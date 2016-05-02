@@ -14,6 +14,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -39,8 +41,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng sydney = new LatLng(13.604760, 100.614848);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("ร้านปังเว้ยเฮ้ย สาขา ศรีนครินทร์-ปากน้ำ").snippet("ตั้งอยู่ที่ 27/15 ถนน ศรีนครินทร์ ตำบล บางเมือง อำเภอเมือง จังหวัดสมุทรปราการ 10270"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,16));
+
+
     }
 }
