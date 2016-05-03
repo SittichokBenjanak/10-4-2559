@@ -2,8 +2,7 @@ package drucc.sittichok.heyheybread;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Button;
-
+import android.view.View;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,6 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LatLng ltgMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void ClickBottomMap(View view) {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mMap = mapFragment.getMap();
+        mMap.setMyLocationEnabled(true);
+
+        ltgMap = new LatLng(13.604760, 100.614848);
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(ltgMap).zoom(15).bearing(270).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+    }   // ClickButtomMap
 
 
     @Override

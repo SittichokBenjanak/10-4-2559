@@ -47,6 +47,7 @@
     <string name="f1">เลขที่สั่งซื้อ </string>
     <string name="f2">วันที่สั่งซื้อ </string>
     <string name="f3">สถานะ </string>
+    <string name="f4">ตำแหน่งร้านขนมปัง </string>
     <string name="title_activity_maps">Map</string>
 
 </resources>
