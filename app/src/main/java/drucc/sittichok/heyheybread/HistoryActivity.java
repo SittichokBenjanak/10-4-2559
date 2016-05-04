@@ -1,10 +1,12 @@
 package drucc.sittichok.heyheybread;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -173,7 +175,8 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                ChooseOrder(NumberOrder[i]);
+                ShowDialog(NumberOrder[i]);
+
 //               Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
 ////                objIntent.putExtra("ID", strID);
 ////                objIntent.putExtra("ORDER", NumberOrder);
@@ -183,6 +186,32 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     }   // readAllorder
+
+    private void ShowDialog(final String NumberOrder) {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.icon_myaccount);
+        objBuilder.setTitle("เลือกสิ่งที่ต้องการ");  // หัวข้อ
+        objBuilder.setMessage("1.เลือกเพิ่มรูปภาพ คือ การเพิ่มรูปภาพ เพื่อยืนยันชำระเงิน" +"\n" +
+                "2.เลือกรายละเอียดการสั่งซื้อ คือ การดูรายละเอียดของการสังซื้อ");
+        objBuilder.setPositiveButton("รายละเอียดการสั่งซื้อ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                ChooseOrder(NumberOrder);
+                dialogInterface.dismiss();
+            }
+        });
+
+        objBuilder.setNegativeButton("เพิ่มรูปภาพ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        objBuilder.show();
+
+    }   // ShowDialog
 
     private void ChooseOrder(final String NumberOrder) {
 
