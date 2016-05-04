@@ -4,14 +4,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -192,9 +196,9 @@ public class HistoryActivity extends AppCompatActivity {
         AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
         objBuilder.setIcon(R.drawable.icon_myaccount);
         objBuilder.setTitle("เลือกสิ่งที่ต้องการ");  // หัวข้อ
-        objBuilder.setMessage("1.เลือกเพิ่มรูปภาพ คือ การเพิ่มรูปภาพ เพื่อยืนยันชำระเงิน" +"\n" +
+        objBuilder.setMessage("1.เลือกเพิ่มรูปภาพ คือ การเพิ่มรูปภาพ เพื่อยืนยันการชำระเงิน" +"\n" +
                 "2.เลือกรายละเอียดการสั่งซื้อ คือ การดูรายละเอียดของการสังซื้อ");
-        objBuilder.setPositiveButton("รายละเอียดการสั่งซื้อ", new DialogInterface.OnClickListener() {
+        objBuilder.setPositiveButton("ดูรายละเอียดการสั่งซื้อ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -203,15 +207,78 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
-        objBuilder.setNegativeButton("เพิ่มรูปภาพ", new DialogInterface.OnClickListener() {
+        objBuilder.setNegativeButton("เพิ่มรูปภาพการชำระเงิน", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                showPickPictureDialog();
+
+                dialogInterface.dismiss();
 
             }
         });
         objBuilder.show();
 
     }   // ShowDialog
+
+    private final static int PICK_IMAGE = 1;
+    private String imageFilePath;
+
+    private void showPickPictureDialog() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"เลือกรูปภาพ"),PICK_IMAGE);
+
+    }   // showPickPictureDialog
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+
+            if (uri != null) {
+                Cursor cursor = getContentResolver().query(
+                        uri, new String[]{ MediaStore.Images.ImageColumns.DATA
+
+                        },null,null,null
+                );
+                cursor.moveToFirst();
+
+                imageFilePath = cursor.getString(0);
+
+                showConfirmPostPictureDialog();
+                cursor.close();
+
+            }
+        }
+    }   // onActivityResult
+
+    private void showConfirmPostPictureDialog() {
+        Bitmap picture = BitmapFactory.decodeFile(imageFilePath);
+
+        final ImageView imageView = new ImageView(this);
+        imageView.setImageBitmap(picture);
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setTitle("อัฟเดทรูปภาพเข้าระบบ");
+        objBuilder.setView(imageView);
+        objBuilder.setPositiveButton("ยืนยัน", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+            }
+        }).setNegativeButton("ยกเลิก",null);
+        objBuilder.show();
+
+
+
+    }   // showConfirmPostPictureDialog
 
     private void ChooseOrder(final String NumberOrder) {
 
