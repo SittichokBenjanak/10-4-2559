@@ -25,6 +25,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.apache.http.HttpRequestFactory;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -308,6 +309,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/php_add_tborder.php");
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
             httpClient.execute(httpPost);
+
+
 
             Log.i("11April", "Update Finish");
 

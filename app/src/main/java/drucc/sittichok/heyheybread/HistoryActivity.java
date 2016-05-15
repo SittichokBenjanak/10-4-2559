@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,19 +26,35 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.internal.http.HttpConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -44,6 +62,7 @@ public class HistoryActivity extends AppCompatActivity {
     private String strID;
     private ListView UserOrderListView;
     private String OrderNumberString, DateOrderString, SumPriceString, StatusString;
+    private String image;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -249,7 +268,6 @@ public class HistoryActivity extends AppCompatActivity {
                 cursor.moveToFirst();
 
                 imageFilePath = cursor.getString(0);
-
                 showConfirmPostPictureDialog();
                 cursor.close();
 
@@ -258,7 +276,7 @@ public class HistoryActivity extends AppCompatActivity {
     }   // onActivityResult
 
     private void showConfirmPostPictureDialog() {
-        Bitmap picture = BitmapFactory.decodeFile(imageFilePath);
+        final Bitmap picture = BitmapFactory.decodeFile(imageFilePath);
 
         final ImageView imageView = new ImageView(this);
         imageView.setImageBitmap(picture);
@@ -271,20 +289,82 @@ public class HistoryActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
 
 
+                StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(threadPolicy);
+
+                try {
+
+                    getStringImage(picture);
+
+//                    ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+//                    nameValuePairs.add(new BasicNameValuePair("isAdd","true"));
+//                    nameValuePairs.add(new BasicNameValuePair("Binpicture",image));
+//                    HttpClient httpClient = new DefaultHttpClient();
+//                    HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/upOrder.php");
+//                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+//                    httpClient.execute(httpPost);
+
+
+
+                } catch (Exception e) {
+
+
+                }
+
 
             }
         }).setNegativeButton("ยกเลิก",null);
         objBuilder.show();
 
-
-
     }   // showConfirmPostPictureDialog
+
+    private String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        String encodeImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+        ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+        dataToSend.add(new BasicNameValuePair("isAdd","true"));
+        dataToSend.add(new BasicNameValuePair("Binpicture",encodeImage));
+
+        HttpParams httpRequestParams = getHttpRequestParams();
+
+        HttpClient client = new DefaultHttpClient(httpRequestParams);
+        HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/upOrder.php");
+
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(dataToSend,"UTF-8"));
+            client.execute(httpPost);
+
+        } catch (Exception e) {
+
+        }
+
+
+
+
+        return null;
+    }
+
+    private HttpParams getHttpRequestParams() {
+        HttpParams httpRequestParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
+        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000 * 30);
+
+        return httpRequestParams;
+    }
+
+
+
+
 
     private void ChooseOrder(final String NumberOrder) {
 
         Intent objIntent = new Intent(HistoryActivity.this, OrderDetailActivity.class);
         objIntent.putExtra("NO",NumberOrder);
         startActivity(objIntent);
+
+
 
     }   // ChooseOrder
 
