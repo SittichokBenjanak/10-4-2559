@@ -296,21 +296,9 @@ public class HistoryActivity extends AppCompatActivity {
 
                     getStringImage(picture);
 
-//                    ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-//                    nameValuePairs.add(new BasicNameValuePair("isAdd","true"));
-//                    nameValuePairs.add(new BasicNameValuePair("Binpicture",image));
-//                    HttpClient httpClient = new DefaultHttpClient();
-//                    HttpPost httpPost = new HttpPost("http://swiftcodingthai.com/mos/upOrder.php");
-//                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
-//                    httpClient.execute(httpPost);
-
-
-
                 } catch (Exception e) {
 
-
                 }
-
 
             }
         }).setNegativeButton("ยกเลิก",null);
@@ -340,9 +328,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         }
 
-
-
-
         return null;
     }
 
@@ -353,10 +338,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         return httpRequestParams;
     }
-
-
-
-
 
     private void ChooseOrder(final String NumberOrder) {
 
