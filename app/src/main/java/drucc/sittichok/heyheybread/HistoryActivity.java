@@ -296,6 +296,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                     getStringImage(picture);
 
+
                 } catch (Exception e) {
 
                 }
@@ -323,6 +324,7 @@ public class HistoryActivity extends AppCompatActivity {
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(dataToSend,"UTF-8"));
             client.execute(httpPost);
+            Toast.makeText(getApplicationContext(),"อัฟโหลดสำเร็จ",Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
 
